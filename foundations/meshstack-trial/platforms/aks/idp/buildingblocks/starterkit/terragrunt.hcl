@@ -6,6 +6,14 @@ dependency "platform" {
   config_path = "../../platform"
 }
 
+dependency "github_repo" {
+  config_path = "../github-repo"
+}
+
+dependency "connector" {
+  config_path = "../connector"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -26,20 +34,20 @@ inputs = {
   meshstack = {
     owning_workspace_identifier = dependency.platform.outputs.owned_by_workspace
   }
-  full_platform_identifier     = dependency.platform.outputs.full_platform_identifier
-  landing_zone_dev_identifier  = dependency.platform.outputs.landing_zone_dev_identifier
-  landing_zone_prod_identifier = dependency.platform.outputs.landing_zone_prod_identifier
-  hub                          = { git_ref = "feature/aks-starterkit-integration" }
-  tags                         = {}
-  template_owner               = "try-meshstack"
-  template_repo                = "aks-starterkit-template"
-  notification_subscribers     = []
-  project_tags_yaml            = <<-YAML
-    dev:
-      environment:
-        - "dev"
-    prod:
-      environment:
-        - "prod"
+  full_platform_identifier                         = dependency.platform.outputs.full_platform_identifier
+  landing_zone_dev_identifier                      = dependency.platform.outputs.landing_zone_dev_identifier
+  landing_zone_prod_identifier                     = dependency.platform.outputs.landing_zone_prod_identifier
+  github_org                                       = "try-meshstack"
+  github_repo_definition_uuid                      = dependency.github_repo.outputs.building_block_definition_uuid
+  github_repo_definition_version_uuid              = dependency.github_repo.outputs.building_block_definition_version_uuid
+  github_actions_connector_definition_version_uuid = dependency.connector.outputs.building_block_definition_version_uuid
+  hub                                              = { git_ref = "feature/aks-starterkit-integration" }
+  tags                                             = {}
+  template_owner                                   = "try-meshstack"
+  template_repo                                    = "aks-starterkit-template"
+  notification_subscribers                         = []
+  project_tags_yaml                                = <<-YAML
+    dev: {}
+    prod: {}
   YAML
 }
