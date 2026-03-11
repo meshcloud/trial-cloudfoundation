@@ -31,6 +31,8 @@ inputs = {
   landing_zone_prod_identifier = dependency.platform.outputs.landing_zone_prod_identifier
   hub                          = { git_ref = "feature/aks-starterkit-integration" }
   tags                         = {}
+  template_owner               = "try-meshstack"
+  template_repo                = "aks-starterkit-template"
   notification_subscribers     = []
   project_tags_yaml            = <<-YAML
     dev:
