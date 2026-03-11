@@ -1,0 +1,17 @@
+# terraform/terragrunt caches
+.terraform
+.terragrunt-cache
+
+# generated docs
+.docs
+.docs-v2
+
+# generated files from terragrunt
+provider.tf
+plan.tfplan
+
+.idea
+
+# osx specific
+.DS_Store
+.worktrees/
