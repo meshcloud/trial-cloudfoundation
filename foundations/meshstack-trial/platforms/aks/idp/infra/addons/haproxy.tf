@@ -19,6 +19,10 @@ resource "helm_release" "haproxy" {
       replicaCount = 2
       service = {
         type = "LoadBalancer"
+        # required on AKS
+        annotations = {
+          "service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path" = "/healthz"
+        }
       }
     }
   })]
