@@ -42,11 +42,15 @@ inputs = {
   github_repo_definition_version_uuid              = dependency.github_repo.outputs.building_block_definition_version_uuid
   github_actions_connector_definition_version_uuid = dependency.connector.outputs.building_block_definition_version_uuid
   hub                                              = { git_ref = "feature/aks-starterkit-integration" }
-  tags                                             = {}
-  template_owner                                   = "try-meshstack"
-  template_repo                                    = "aks-starterkit-template"
-  notification_subscribers                         = []
-  project_tags_yaml                                = <<-YAML
+
+  # this is only for app link outputs so the link is rendered correctly when we change the base domain.
+  apps_base_domain = "try-meshstack.msh.host"
+
+  tags                     = {}
+  template_owner           = "try-meshstack"
+  template_repo            = "aks-starterkit-template"
+  notification_subscribers = []
+  project_tags_yaml        = <<-YAML
     dev: {}
     prod: {}
   YAML
