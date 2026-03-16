@@ -30,7 +30,7 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/github-connector/backplane?ref=feature/aks-starterkit-integration"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/github-connector/backplane?ref=main"
 }
 
 inputs = {

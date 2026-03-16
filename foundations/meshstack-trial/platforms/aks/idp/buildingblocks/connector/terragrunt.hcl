@@ -27,7 +27,7 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/github-connector?ref=feature/aks-starterkit-integration"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/github-connector?ref=main"
 }
 
 inputs = {
@@ -44,7 +44,7 @@ inputs = {
   aks = {
     connector_config_tf_base64 = base64encode(dependency.connector_backplane.outputs.config_tf)
   }
-  hub                      = { git_ref = "feature/aks-starterkit-integration" }
+  hub                      = { git_ref = "main" }
   tags                     = {}
   notification_subscribers = []
 }

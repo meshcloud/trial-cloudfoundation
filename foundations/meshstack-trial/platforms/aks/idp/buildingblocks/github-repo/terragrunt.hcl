@@ -19,7 +19,7 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/github/repository?ref=feature/aks-starterkit-integration"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/github/repository?ref=main"
 }
 
 inputs = {
@@ -32,7 +32,7 @@ inputs = {
     app_installation_id = get_env("GITHUB_APP_INSTALLATION_ID")
     app_pem_file        = get_env("GITHUB_APP_PEM_FILE")
   }
-  hub                      = { git_ref = "feature/aks-starterkit-integration" }
+  hub                      = { git_ref = "main" }
   tags                     = {}
   notification_subscribers = []
 }

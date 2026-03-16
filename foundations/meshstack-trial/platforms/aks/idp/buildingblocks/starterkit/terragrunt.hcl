@@ -27,31 +27,35 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/starterkit?ref=feature/aks-starterkit-integration"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/starterkit?ref=main"
 }
 
 inputs = {
   meshstack = {
     owning_workspace_identifier = dependency.platform.outputs.owned_by_workspace
   }
-  full_platform_identifier                         = dependency.platform.outputs.full_platform_identifier
-  landing_zone_dev_identifier                      = dependency.platform.outputs.landing_zone_dev_identifier
-  landing_zone_prod_identifier                     = dependency.platform.outputs.landing_zone_prod_identifier
+
+  full_platform_identifier = dependency.platform.outputs.full_platform_identifier
+  landing_zone_identifiers = {
+    dev  = dependency.platform.outputs.landing_zone_dev_identifier
+    prod = dependency.platform.outputs.landing_zone_prod_identifier
+  }
+
   github_org                                       = "try-meshstack"
   github_repo_definition_uuid                      = dependency.github_repo.outputs.building_block_definition_uuid
   github_repo_definition_version_uuid              = dependency.github_repo.outputs.building_block_definition_version_uuid
   github_actions_connector_definition_version_uuid = dependency.connector.outputs.building_block_definition_version_uuid
-  hub                                              = { git_ref = "feature/aks-starterkit-integration" }
+  github_template_repo_path                        = "try-meshstack/aks-starterkit-template"
+
+  hub = { git_ref = "main" }
 
   # this is only for app link outputs so the link is rendered correctly when we change the base domain.
   apps_base_domain = "try-meshstack.msh.host"
 
   tags                     = {}
-  template_owner           = "try-meshstack"
-  template_repo            = "aks-starterkit-template"
   notification_subscribers = []
-  project_tags_yaml        = <<-YAML
-    dev: {}
-    prod: {}
-  YAML
+  project_tags = {
+    dev  = {}
+    prod = {}
+  }
 }
