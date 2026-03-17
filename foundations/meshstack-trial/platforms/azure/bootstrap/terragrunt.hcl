@@ -8,5 +8,6 @@ inputs = {
     "jrudolph@meshcloud.io",
     "hdettmer@meshcloud.io",
     "agrub@meshcloud.io",
+    "jdburger@meshcloud.io"
   ]
 }
