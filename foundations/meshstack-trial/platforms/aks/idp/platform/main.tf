@@ -115,7 +115,8 @@ resource "meshstack_platform" "aks" {
           namespace_name_pattern = "#{workspaceIdentifier}-#{projectIdentifier}"
 
           user_lookup_strategy       = "UserByMailLookupStrategy"
-          send_azure_invitation_mail = false
+          send_azure_invitation_mail = true
+          redirect_url               = "https://portal.azure.com/#home"
 
           aks_subscription_id = var.aks_subscription_id
           aks_cluster_name    = var.aks_cluster_name
@@ -125,7 +126,7 @@ resource "meshstack_platform" "aks" {
         metering = {
           client_config = {
             access_token = {
-              secret_value   = module.backplane.metering_token
+              secret_value = module.backplane.metering_token
               # secret_version = sha256(module.backplane.metering_token)
             }
           }
