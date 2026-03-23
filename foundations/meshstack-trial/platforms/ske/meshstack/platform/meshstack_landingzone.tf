@@ -13,22 +13,22 @@ locals {
       quotas = [
         { key = "limits.cpu", value = 500 },
         { key = "requests.cpu", value = 250 },
-        { key = "limits.memory", value = 512 },
+        { key = "limits.memory", value = 256 },
         { key = "requests.memory", value = 256 },
-        { key = "requests.storage", value = 1 },
-        { key = "persistentvolumeclaims", value = 2 },
+        { key = "requests.storage", value = 0 },
+        { key = "persistentvolumeclaims", value = 0 },
       ]
     }
     prod = {
       display_name = "SKE Kubernetes Namespace – Production"
       description  = "Landing zone for production workloads."
       quotas = [
-        { key = "limits.cpu", value = 1000 },
+        { key = "limits.cpu", value = 500 },
         { key = "requests.cpu", value = 500 },
-        { key = "limits.memory", value = 1024 },
+        { key = "limits.memory", value = 512 },
         { key = "requests.memory", value = 512 },
-        { key = "requests.storage", value = 2 },
-        { key = "persistentvolumeclaims", value = 4 },
+        { key = "requests.storage", value = 0 },
+        { key = "persistentvolumeclaims", value = 0 },
       ]
     }
   }
@@ -40,11 +40,7 @@ resource "meshstack_landingzone" "this" {
   metadata = {
     name               = "ske-namespace-${each.key}"
     owned_by_workspace = var.meshstack.owning_workspace_identifier
-    tags = {
-      "LandingZoneFamily" = ["cloud-native"]
-      "environment"       = [each.key]
-      "confidentiality"   = each.key == "prod" ? ["public"] : ["internal"]
-    }
+    tags               = {}
   }
 
   spec = {

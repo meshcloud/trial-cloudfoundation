@@ -2,6 +2,6 @@
 terraform {
   backend "gcs" {
     bucket = "meshcloud-tf-states"
-    prefix = "likvid-cloudfoundation/foundations/likvid-prod/platforms/ske/meshstack/platform"
+    prefix = "trial-cloudfoundation/foundations/meshstack-trial/platforms/ske/meshstack/platform"
   }
 }

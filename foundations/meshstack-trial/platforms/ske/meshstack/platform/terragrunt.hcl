@@ -2,10 +2,6 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "tfstate" {
-  path = find_in_parent_folders("tfstate.hcl")
-}
-
 dependency "meshstack" {
   config_path = ".."
   mock_outputs = {
@@ -70,9 +66,9 @@ provider "kubernetes" {
 }
 
 provider "meshstack" {
-  endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "ebeb67c1-aaa6-4fd5-9b0b-f70e975b7fef"
-  apisecret = "${get_env("MESHSTACK_API_SECRET_STACKIT_IDP")}"
+  endpoint  = "https://api.try.meshstack.io"
+  apikey    = "${get_env("MESHSTACK_STARTER_KIT_API_KEY_ID")}"
+  apisecret = "${get_env("MESHSTACK_STARTER_KIT_API_KEY_SECRET")}"
 }
 EOF
 }

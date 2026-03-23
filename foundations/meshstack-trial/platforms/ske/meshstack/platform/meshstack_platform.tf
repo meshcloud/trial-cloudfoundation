@@ -23,7 +23,7 @@ resource "meshstack_platform" "this" {
   }
 
   spec = {
-    display_name      = "Kubernetes namespace on SKE"
+    display_name      = "SKE Namespace"
     description       = "Provides a kubernetes namespace on STACKIT Kubernetes Engine (SKE)."
     endpoint          = var.kube_host
     documentation_url = ""
@@ -79,8 +79,8 @@ resource "meshstack_platform" "this" {
         description             = "The sum of CPU limits across all pods in a non-terminal state cannot exceed this value."
         unit                    = "m"
         min_value               = 0
-        max_value               = 1000 # 1 vCPU per namespace
-        auto_approval_threshold = 1000
+        max_value               = 500 # 1 vCPU per namespace
+        auto_approval_threshold = 500
       },
       {
         quota_key               = "requests.cpu"
@@ -88,7 +88,7 @@ resource "meshstack_platform" "this" {
         description             = "The sum of CPU requests across all pods in a non-terminal state cannot exceed this value."
         unit                    = "m"
         min_value               = 0
-        max_value               = 1000
+        max_value               = 500
         auto_approval_threshold = 500
       },
       {
@@ -97,8 +97,8 @@ resource "meshstack_platform" "this" {
         description             = "The sum of memory limits across all pods in a non-terminal state cannot exceed this value."
         unit                    = "Mi"
         min_value               = 0
-        max_value               = 1024 # 1 Gi per namespace
-        auto_approval_threshold = 1024
+        max_value               = 512
+        auto_approval_threshold = 512
       },
       {
         quota_key               = "requests.memory"
@@ -106,7 +106,7 @@ resource "meshstack_platform" "this" {
         description             = "The sum of memory requests across all pods in a non-terminal state cannot exceed this value."
         unit                    = "Mi"
         min_value               = 0
-        max_value               = 1024
+        max_value               = 512
         auto_approval_threshold = 512
       },
       {
@@ -115,8 +115,8 @@ resource "meshstack_platform" "this" {
         description             = "Across all persistent volume claims, the sum of storage requests cannot exceed this value."
         unit                    = "Gi"
         min_value               = 0
-        max_value               = 5
-        auto_approval_threshold = 2
+        max_value               = 0
+        auto_approval_threshold = 0
       },
       {
         quota_key               = "persistentvolumeclaims"
@@ -124,9 +124,14 @@ resource "meshstack_platform" "this" {
         description             = "The total number of PersistentVolumeClaims that can exist in the namespace."
         unit                    = ""
         min_value               = 0
-        max_value               = 4
-        auto_approval_threshold = 2
+        max_value               = 0
+        auto_approval_threshold = 0
       },
     ]
   }
+}
+
+import {
+  id = "72c51d75-96b8-4986-ba78-4ae5ee4fe7db"
+  to = meshstack_platform.this
 }
