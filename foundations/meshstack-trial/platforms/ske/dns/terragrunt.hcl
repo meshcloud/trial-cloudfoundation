@@ -2,10 +2,6 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "tfstate" {
-  path = find_in_parent_folders("tfstate.hcl")
-}
-
 dependency "meshstack" {
   config_path = "../meshstack"
   mock_outputs = {
@@ -34,6 +30,6 @@ EOF
 
 inputs = {
   stackit_project_id = dependency.meshstack.outputs.stackit_project_id
-  dns_name           = "likvid"
+  dns_name           = "try-meshstack"
   haproxy_lb_ip      = dependency.addons.outputs.haproxy_lb_ip
 }
