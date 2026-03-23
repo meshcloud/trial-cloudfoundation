@@ -7,7 +7,7 @@ resource "azuread_invitation" "users" {
 
   message {
     body = <<EOT
-You have been invited to join the Microsoft Entra ID tenant for the meshStack trial environment. 
+You have been invited to join the Microsoft Entra ID tenant for the meshStack trial environment.
 Please accept this invitation to gain access as a Global Administrator.
 EOT
   }

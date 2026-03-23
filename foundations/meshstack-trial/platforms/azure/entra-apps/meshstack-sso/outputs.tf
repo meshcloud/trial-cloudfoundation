@@ -23,7 +23,7 @@ output "oidc_discovery_url" {
     The /common/ endpoint accepts both organisational and personal Microsoft accounts,
     matching the AzureADandPersonalMicrosoftAccount sign_in_audience set on the app.
   EOT
-  value = "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration"
+  value       = "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration"
 }
 
 output "secret_expiry" {
