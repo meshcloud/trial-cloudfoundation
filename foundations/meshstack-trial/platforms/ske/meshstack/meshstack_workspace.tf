@@ -9,6 +9,6 @@ locals {
 # Workspace is given to us, check for existence using datasource
 data "meshstack_workspace" "this" {
   metadata = {
-    name = "devops-platform"
+    name = "meshcloud"
   }
 }
