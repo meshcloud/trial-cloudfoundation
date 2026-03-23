@@ -6,13 +6,21 @@ variable "stackit_project_id" {
 variable "forgejo_organization" {
   description = "Forgejo organization that should exist in the STACKIT Git instance"
   type        = string
-  default     = "likvid"
 }
 
-resource "stackit_git" "git" {
+resource "stackit_git" "this" {
   project_id = var.stackit_project_id
-  name       = "likvid"
-  # Note: That should probably be randomized for meshTrial as all STACKIT git instances need a globally unique name, see URL 'likvid.git.onstackit.cloud'
+  name       = var.forgejo_organization
+}
+
+moved {
+  from = stackit_git.git
+  to   = stackit_git.this
+}
+
+import {
+  to = stackit_git.this
+  id = "${var.stackit_project_id},bddcefe5-004c-4a7a-b40e-decc66d3649c"
 }
 
 # this direct input to output mapping looks funny, but reflects the manual step when bootstrapping a stackit_git instance
@@ -23,33 +31,15 @@ variable "forgejo_token" {
   sensitive = true
 }
 
-provider "restapi" {
-  uri                  = stackit_git.git.url
-  write_returns_object = true
 
-  headers = {
-    Authorization = "token ${var.forgejo_token}"
-    Content-Type  = "application/json"
-  }
+provider "forgejo" {
+  host      = stackit_git.this.url
+  api_token = var.forgejo_token
 }
 
-# Using the gitea provider is brittle: Org Create works, but refreshing plan fails with weird 403 against STACKIT Git,
-# so fallback to simple REST API resource
-resource "restapi_object" "forgejo_organization" {
-  path          = "/api/v1/orgs"
-  id_attribute  = "username"
-  object_id     = var.forgejo_organization
-  update_method = "PATCH"
-  data = jsonencode({
-    username   = var.forgejo_organization
-    visibility = "private"
-  })
-  ignore_server_additions = true
-}
-
-import {
-  to = restapi_object.forgejo_organization
-  id = "/api/v1/orgs/${var.forgejo_organization}"
+resource "forgejo_organization" "this" {
+  name       = var.forgejo_organization
+  visibility = "private"
 }
 
 output "forgejo_token" {
@@ -58,9 +48,9 @@ output "forgejo_token" {
 }
 
 output "forgejo_base_url" {
-  value = stackit_git.git.url
+  value = stackit_git.this.url
 }
 
 output "forgejo_organization" {
-  value = jsondecode(restapi_object.forgejo_organization.api_response).name
+  value = forgejo_organization.this.name
 }

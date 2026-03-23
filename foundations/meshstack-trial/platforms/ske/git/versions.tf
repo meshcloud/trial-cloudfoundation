@@ -4,9 +4,9 @@ terraform {
       source  = "stackitcloud/stackit"
       version = "~> 0.83"
     }
-    restapi = {
-      source  = "Mastercard/restapi"
-      version = "3.0.0"
+    forgejo = {
+      source  = "svalabs/forgejo"
+      version = "~> 1.3.0"
     }
   }
 }

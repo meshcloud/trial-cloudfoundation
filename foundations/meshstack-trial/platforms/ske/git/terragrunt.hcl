@@ -2,10 +2,6 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "tfstate" {
-  path = find_in_parent_folders("tfstate.hcl")
-}
-
 dependency "meshstack" {
   config_path = "../meshstack"
   mock_outputs = {
@@ -26,7 +22,8 @@ EOF
 }
 
 inputs = {
-  stackit_project_id = dependency.meshstack.outputs.stackit_project_id
+  stackit_project_id   = dependency.meshstack.outputs.stackit_project_id
+  forgejo_organization = "try-meshstack"
   # TODO: This is a workaround that we need to create a PAT for the created STACKIT git instance
-  forgejo_token = get_env("STACKIT_GIT_FORGEJO_TOKEN")
+  forgejo_token = get_env("STACKIT_GIT_FORGEJO_TOKEN", "invalid-bootstrap")
 }
