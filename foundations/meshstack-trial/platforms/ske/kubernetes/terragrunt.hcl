@@ -2,10 +2,6 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "tfstate" {
-  path = find_in_parent_folders("tfstate.hcl")
-}
-
 dependency "meshstack" {
   config_path = "../meshstack"
   mock_outputs = {
@@ -26,5 +22,5 @@ EOF
 
 inputs = {
   stackit_project_id = dependency.meshstack.outputs.stackit_project_id
-  cluster_name       = "starterkit"
+  cluster_name       = "try-mesh" # limited to 11 chars, to try-meshstack is too long
 }

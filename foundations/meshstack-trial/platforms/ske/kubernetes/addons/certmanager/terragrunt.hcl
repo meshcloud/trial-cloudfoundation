@@ -2,10 +2,6 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "tfstate" {
-  path = find_in_parent_folders("tfstate.hcl")
-}
-
 dependency "addons" {
   config_path  = ".."
   skip_outputs = true # only needed for apply ordering; no outputs consumed
