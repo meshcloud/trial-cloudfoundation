@@ -19,7 +19,7 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/github/repository?ref=main"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/github/repository?ref=6e1db6139d2c4d53761a0dd3a8d25aa61b6406c7"
 }
 
 inputs = {
@@ -32,7 +32,7 @@ inputs = {
     app_installation_id = get_env("GITHUB_APP_INSTALLATION_ID")
     app_pem_file        = get_env("GITHUB_APP_PEM_FILE")
   }
-  hub                      = { git_ref = "main" }
+  hub                      = { git_ref = "6e1db6139d2c4d53761a0dd3a8d25aa61b6406c7", bbd_draft = false }
   tags                     = {}
   notification_subscribers = []
 }

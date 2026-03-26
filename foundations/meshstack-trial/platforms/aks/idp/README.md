@@ -8,7 +8,7 @@ Existing GCS bucket `meshcloud-tf-states`, prefix `path/to/<module>`. Configured
 
 ## Apply
 
-Requires a Vault port-forward to `localhost:8200`. Load credentials with `source setup.sh`, then apply:
+Load credentials with `source setup-env.sh` from repo root, then apply:
 
 ```bash
 terragrunt run --all apply

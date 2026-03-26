@@ -27,7 +27,7 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/github-connector?ref=main"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/github-connector?ref=6e1db6139d2c4d53761a0dd3a8d25aa61b6406c7"
 }
 
 inputs = {
@@ -35,7 +35,7 @@ inputs = {
     owning_workspace_identifier = dependency.platform.outputs.owned_by_workspace
   }
   github = {
-    repo_definition_uuid = dependency.github_repo.outputs.building_block_definition_uuid
+    repo_definition_uuid = dependency.github_repo.outputs.building_block_definition.uuid
     org                  = "try-meshstack"
     app_id               = get_env("GITHUB_APP_ID")
     app_installation_id  = get_env("GITHUB_APP_INSTALLATION_ID")
@@ -44,7 +44,7 @@ inputs = {
   aks = {
     connector_config_tf_base64 = base64encode(dependency.connector_backplane.outputs.config_tf)
   }
-  hub                      = { git_ref = "main" }
+  hub                      = { git_ref = "6e1db6139d2c4d53761a0dd3a8d25aa61b6406c7", bbd_draft = false }
   tags                     = {}
   notification_subscribers = []
 }
