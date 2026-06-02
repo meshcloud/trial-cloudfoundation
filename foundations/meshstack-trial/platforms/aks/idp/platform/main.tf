@@ -6,7 +6,7 @@ terraform {
     }
     meshstack = {
       source  = "meshcloud/meshstack"
-      version = "~> 0.19.1"
+      version = "~> 0.20.11"
     }
     azurerm = {
       source  = "hashicorp/azurerm"

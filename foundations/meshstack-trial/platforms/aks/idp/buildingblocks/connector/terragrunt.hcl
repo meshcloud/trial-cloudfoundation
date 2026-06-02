@@ -27,7 +27,7 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/github-connector?ref=6e1db6139d2c4d53761a0dd3a8d25aa61b6406c7"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/github-connector?ref=41e7bc0be341ac4b182bf4bcfd4615cd8fc559df"
 }
 
 inputs = {
@@ -44,7 +44,7 @@ inputs = {
   aks = {
     connector_config_tf_base64 = base64encode(dependency.connector_backplane.outputs.config_tf)
   }
-  hub                      = { git_ref = "6e1db6139d2c4d53761a0dd3a8d25aa61b6406c7", bbd_draft = false }
+  hub                      = { git_ref = "41e7bc0be341ac4b182bf4bcfd4615cd8fc559df", bbd_draft = false }
   tags                     = {}
   notification_subscribers = []
 }
