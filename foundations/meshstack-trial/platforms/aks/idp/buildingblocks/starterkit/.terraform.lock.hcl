@@ -5,7 +5,20 @@ provider "registry.opentofu.org/meshcloud/meshstack" {
   version     = "0.20.2"
   constraints = "~> 0.20.0"
   hashes = [
+    "h1:0V2WFs3LhU73Aky0qGZ0dSBhkuAXosrFs0zZ6uwttCY=",
+    "h1:2z9XRtd+Cr0cIHAW1Xv0Bf9XPlw1k2TkSRg4wtsjNVc=",
+    "h1:G7aBrv4kw0sQAVBwBBL99v322PLR8LOVoj+W/TvM+HQ=",
+    "h1:IG7uuyIVCV2NAc4y7BqqVqIvL1X+edcsApbsUJGLWcg=",
     "h1:NH613OjwS6Ky4ITBG1nQYQPXGhYFH3CpAk07nL7b8pU=",
+    "h1:Q/p7QsFy8D5xZRPrlZOT14SjwPukcaGV36gssdIhH8g=",
+    "h1:drQpTSZTJEK/7ICTOR4kl8VmOp/5R6KFSm1cLd6VcUY=",
+    "h1:fBa0Qd+JTkO46D7wO5GaxVFpydj6PjssBmCwalKtMmo=",
+    "h1:jQSx6eI9YfuKVEXq2DCsptBsj+BPmh68Q0fNUBcKlsU=",
+    "h1:o0iH5ShZ91W+NkDvOxnu1W7YGRoVSt72+IGHGBZNqqY=",
+    "h1:p94hZ2o9PgLM2oHRHhte0b9rdjqI9ZTjShbLP3krGas=",
+    "h1:ppG2nZrhtNgwJ4Q89UeBCu2ulXjA4i9DvieQbueLYas=",
+    "h1:q861y+/LjykbiWzt14nuSkvTpHC063G7yNokyGTQE3M=",
+    "h1:u6+Ce8NphSlrdg+QdV3mV9BAZPP/PK7EumUz6dpDZm4=",
     "zh:133039878589c4b71e6d4572f208e1472c91976030da8f49cec0571c7d3fb4ce",
     "zh:1a4d23d3ce9a7759042695814d6a5b64772dac24e214cd574208a0a883e1eb29",
     "zh:41b3eb1486fd8a3bd8217c781a1f087bdc652a9739e5952450026250ca6d3781",
