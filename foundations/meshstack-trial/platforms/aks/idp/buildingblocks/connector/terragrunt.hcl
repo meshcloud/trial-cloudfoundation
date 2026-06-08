@@ -44,7 +44,7 @@ inputs = {
   aks = {
     connector_config_tf_base64 = base64encode(dependency.connector_backplane.outputs.config_tf)
   }
-  hub                      = { git_ref = "41e7bc0be341ac4b182bf4bcfd4615cd8fc559df", bbd_draft = false }
+  hub                      = { git_ref = "8b82f854c46cdd996f52e0761e5b5eadbc1a57a2", bbd_draft = false }
   tags                     = {}
   notification_subscribers = []
 }
