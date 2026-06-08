@@ -39,7 +39,7 @@ inputs = {
     org                  = "try-meshstack"
     app_id               = get_env("GITHUB_APP_ID")
     app_installation_id  = get_env("GITHUB_APP_INSTALLATION_ID")
-    app_pem_file         = get_env("GITHUB_APP_PEM_FILE")
+    app_pem_file         = trim(get_env("GITHUB_APP_PEM_FILE"), "\n")
   }
   aks = {
     connector_config_tf_base64 = base64encode(dependency.connector_backplane.outputs.config_tf)
