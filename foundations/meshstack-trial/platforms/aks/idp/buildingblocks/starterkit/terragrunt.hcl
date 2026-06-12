@@ -47,7 +47,7 @@ inputs = {
   github_actions_connector_definition_version_uuid = dependency.connector.outputs.building_block_definition.version_ref.uuid
   github_template_repo_path                        = "try-meshstack/aks-starterkit-template"
 
-  hub = { git_ref = "8b82f854c46cdd996f52e0761e5b5eadbc1a57a2", bbd_draft = false }
+  hub = { git_ref = "bc4142a9a846bbb267cf734caeed337c9bb6b98e", bbd_draft = false }
 
   # this is only for app link outputs so the link is rendered correctly when we change the base domain.
   apps_base_domain = "try-meshstack.msh.host"
