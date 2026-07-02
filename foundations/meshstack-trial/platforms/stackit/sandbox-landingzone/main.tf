@@ -21,7 +21,7 @@ data "meshstack_workspace" "owner" {
 }
 
 module "stackit_sandbox_landingzone" {
-  source = "github.com/meshcloud/meshstack-hub//modules/stackit/sandbox-landingzone?ref=feature/stackit-project-custom-roles"
+  source = "github.com/meshcloud/meshstack-hub//modules/stackit/sandbox-landingzone?ref=f7ccadc426610a2d06b37e3bb916f7bbfdfab1cb"
 
   meshstack = {
     owning_workspace_identifier = data.meshstack_workspace.owner.metadata.name
