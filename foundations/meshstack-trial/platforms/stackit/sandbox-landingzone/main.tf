@@ -1,17 +1,11 @@
-terraform {
-  required_version = ">= 1.12.0"
-
-  required_providers {
-    meshstack = {
-      source  = "meshcloud/meshstack"
-      version = ">= 0.23.1"
-    }
-  }
-}
-
 variable "stackit_service_account_key" {
   type      = string
   sensitive = true
+}
+
+locals {
+  stackit_org         = "05d7eb3f-f875-4bcd-ad0d-a07d62787f21"
+  stackit_owner_email = "stackit@meshcloud.io"
 }
 
 data "meshstack_workspace" "owner" {
@@ -48,8 +42,8 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
         landingzone    = { Company = ["stackit-university"] }
         }))
       }
-      stackit_org         = { value = jsonencode("05d7eb3f-f875-4bcd-ad0d-a07d62787f21") }
-      stackit_owner_email = { value = jsonencode("stackit@meshcloud.io") }
+      stackit_org         = { value = jsonencode(local.stackit_org) }
+      stackit_owner_email = { value = jsonencode(local.stackit_owner_email) }
       stackit_service_account_key = { sensitive = {
         secret_value   = var.stackit_service_account_key
         secret_version = nonsensitive(sha256(var.stackit_service_account_key))
@@ -57,9 +51,4 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
       use_global_location = { value = jsonencode(true) }
     }
   }
-}
-
-moved {
-  from = meshstack_building_block_v2.stackit_sandbox_landingzone
-  to   = meshstack_building_block.stackit_sandbox_landingzone
 }
