@@ -52,7 +52,7 @@
           tofu_terraform
 
           # cli tools not already pre-installed
-          google-cloud-sdk # we authenticate to GCP via the specific github action
+          (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
 
           # script dependencies
           gnused # sed acts inconsistently on macOS, so we always use GNU sed
