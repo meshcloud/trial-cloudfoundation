@@ -14,15 +14,19 @@ data "meshstack_workspace" "owner" {
   }
 }
 
+locals {
+  git_ref = "942edaf0fdb24fe3dec0f4cf70dffd18740cc265"
+}
+
 module "stackit_sandbox_landingzone" {
-  source = "github.com/meshcloud/meshstack-hub//reference-architectures/stackit-sandbox-landingzone?ref=main"
+  source = "github.com/meshcloud/meshstack-hub//reference-architectures/stackit-sandbox-landingzone?ref=${local.git_ref}"
 
   meshstack = {
     owning_workspace_identifier = data.meshstack_workspace.owner.metadata.name
   }
 
   hub = {
-    git_ref   = "main"
+    git_ref   = local.git_ref
     bbd_draft = true
   }
 }
@@ -32,7 +36,7 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
   spec = {
     building_block_definition_version_ref = module.stackit_sandbox_landingzone.building_block_definition.version_ref
 
-    display_name = "STACKIT Sandbox Landingzone"
+    display_name = "STACKIT Sandbox Landingzone Architecture"
     target_ref   = data.meshstack_workspace.owner.ref
 
     inputs = {
