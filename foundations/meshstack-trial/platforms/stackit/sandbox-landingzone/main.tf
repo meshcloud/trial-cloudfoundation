@@ -46,6 +46,13 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
         landingzone    = { Company = ["stackit-university"] }
         }))
       }
+      # Sandbox tenants must not get the STACKIT `owner` role: it permits deleting the
+      # project out from under meshStack. Cap meshStack admins at `editor`.
+      role_mapping = { value = jsonencode(jsonencode({
+        admin  = ["editor"]
+        user   = ["editor"]
+        reader = ["reader"]
+      })) }
       stackit_org         = { value = jsonencode(local.stackit_org) }
       stackit_owner_email = { value = jsonencode(local.stackit_owner_email) }
       stackit_service_account_key = { sensitive = {
