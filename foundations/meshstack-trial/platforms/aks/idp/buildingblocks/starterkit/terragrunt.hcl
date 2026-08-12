@@ -4,6 +4,15 @@ include "common" {
 
 dependency "platform" {
   config_path = "../../platform"
+  mock_outputs = {
+    platform_ref = { uuid = "c26adcd4-e506-4159-b327-501470e3eddf", kind = "meshPlatform" }
+    landing_zone_refs = {
+      dev  = { name = "aks-namespace-dev", kind = "meshLandingZone" }
+      prod = { name = "aks-namespace-prod", kind = "meshLandingZone" }
+    }
+  }
+  mock_outputs_allowed_terraform_commands = ["plan", "validate", "init", "output"]
+  mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
 dependency "github_repo" {
@@ -27,7 +36,7 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/starterkit?ref=6e1db6139d2c4d53761a0dd3a8d25aa61b6406c7"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/starterkit?ref=43ee4fc7ed51000d5b9b6764292eb8f7156651ad"
 }
 
 inputs = {
@@ -35,19 +44,18 @@ inputs = {
     owning_workspace_identifier = dependency.platform.outputs.owned_by_workspace
   }
 
-  full_platform_identifier = dependency.platform.outputs.full_platform_identifier
-  landing_zone_identifiers = {
-    dev  = dependency.platform.outputs.landing_zone_dev_identifier
-    prod = dependency.platform.outputs.landing_zone_prod_identifier
+  platform_ref      = dependency.platform.outputs.platform_ref
+  landing_zone_refs = dependency.platform.outputs.landing_zone_refs
+
+  building_block_definition_version_refs = {
+    "git-repository"           = dependency.github_repo.outputs.building_block_definition.version_ref
+    "github-actions-connector" = dependency.connector.outputs.building_block_definition.version_ref
   }
 
-  github_org                                       = "try-meshstack"
-  github_repo_definition_uuid                      = dependency.github_repo.outputs.building_block_definition.uuid
-  github_repo_definition_version_uuid              = dependency.github_repo.outputs.building_block_definition.version_ref.uuid
-  github_actions_connector_definition_version_uuid = dependency.connector.outputs.building_block_definition.version_ref.uuid
-  github_template_repo_path                        = "try-meshstack/aks-starterkit-template"
+  github_org                = "try-meshstack"
+  github_template_repo_path = "try-meshstack/aks-starterkit-template"
 
-  hub = { git_ref = "bc4142a9a846bbb267cf734caeed337c9bb6b98e", bbd_draft = false }
+  hub = { git_ref = "43ee4fc7ed51000d5b9b6764292eb8f7156651ad", bbd_draft = false }
 
   # this is only for app link outputs so the link is rendered correctly when we change the base domain.
   apps_base_domain = "try-meshstack.msh.host"

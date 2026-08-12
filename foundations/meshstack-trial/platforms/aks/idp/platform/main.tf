@@ -6,7 +6,7 @@ terraform {
     }
     meshstack = {
       source  = "meshcloud/meshstack"
-      version = "~> 0.20.11"
+      version = "~> 0.24.4"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -73,6 +73,10 @@ resource "meshstack_platform" "aks" {
     endpoint          = var.kube_host
     documentation_url = ""
     support_url       = ""
+
+    # Was set outside terraform. Kept here because provider v0.24.4 manages the field, so leaving it
+    # out of the config now deletes the message users see when they get a namespace.
+    access_information = "You will receive an invitation to a Microsoft Entra ID tenant. Please check your email and \"Accept invitation\" to be granted access to your namespace. If you have already done so, please disregard this message."
 
     location_ref = {
       name = "global"
