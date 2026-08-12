@@ -27,7 +27,7 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/starterkit?ref=6e1db6139d2c4d53761a0dd3a8d25aa61b6406c7"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/starterkit?ref=c9c35a27a556f80321f9a6ad3872a78115b6f688"
 }
 
 inputs = {
@@ -41,13 +41,15 @@ inputs = {
     prod = dependency.platform.outputs.landing_zone_prod_identifier
   }
 
-  github_org                                       = "try-meshstack"
-  github_repo_definition_uuid                      = dependency.github_repo.outputs.building_block_definition.uuid
-  github_repo_definition_version_uuid              = dependency.github_repo.outputs.building_block_definition.version_ref.uuid
-  github_actions_connector_definition_version_uuid = dependency.connector.outputs.building_block_definition.version_ref.uuid
-  github_template_repo_path                        = "try-meshstack/aks-starterkit-template"
+  building_block_definition_version_refs = {
+    "git-repository"           = dependency.github_repo.outputs.building_block_definition.version_ref
+    "github-actions-connector" = dependency.connector.outputs.building_block_definition.version_ref
+  }
 
-  hub = { git_ref = "bc4142a9a846bbb267cf734caeed337c9bb6b98e", bbd_draft = false }
+  github_org                = "try-meshstack"
+  github_template_repo_path = "try-meshstack/aks-starterkit-template"
+
+  hub = { git_ref = "c9c35a27a556f80321f9a6ad3872a78115b6f688", bbd_draft = false }
 
   # this is only for app link outputs so the link is rendered correctly when we change the base domain.
   apps_base_domain = "try-meshstack.msh.host"
