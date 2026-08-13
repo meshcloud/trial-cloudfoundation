@@ -40,7 +40,9 @@ inputs = {
   link_support_url         = "https://stackit.com/en/learn/stackit-university"
   link_documentation_url   = "https://stackit.com/en/learn/stackit-university"
   link_supported_platforms = []
-  link_symbol              = "https://raw.githubusercontent.com/meshcloud/meshstack-hub/main/modules/stackit/logo.png"
+  # The symbol is a graduation-cap glyph in STACKIT teal, inlined as a data URI so the icon
+  # ships with this definition instead of depending on a URL we'd have to host elsewhere.
+  link_symbol = "data:image/svg+xml;base64,${base64encode(file("${get_terragrunt_dir()}/symbol.svg"))}"
 
   # Released, not draft: trial workspaces instantiate this definition, and the trial-starter
   # resolves it by display name at sign-up time.
