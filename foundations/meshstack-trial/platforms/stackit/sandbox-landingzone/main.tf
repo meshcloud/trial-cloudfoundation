@@ -15,11 +15,13 @@ data "meshstack_workspace" "owner" {
 }
 
 locals {
-  git_ref = "942edaf0fdb24fe3dec0f4cf70dffd18740cc265"
+  git_ref = "f656771c31a38c548b7cef540dc97b6a8754e49e"
 }
 
 module "stackit_sandbox_landingzone" {
-  source = "github.com/meshcloud/meshstack-hub//reference-architectures/stackit-sandbox-landingzone?ref=${local.git_ref}"
+  # The hub merged the sandbox and hub-and-spoke architectures into one `stackit-landingzone` that
+  # takes an optional `network`. Leaving `network` unset keeps this deployment sandbox-only.
+  source = "github.com/meshcloud/meshstack-hub//reference-architectures/stackit-landingzone?ref=${local.git_ref}"
 
   meshstack = {
     owning_workspace_identifier = data.meshstack_workspace.owner.metadata.name
