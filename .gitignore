@@ -16,3 +16,7 @@ plan.tfplan
 # osx specific
 .DS_Store
 .worktrees/
+
+# local credential cache produced from setup-env.sh
+.env
+.env.*
