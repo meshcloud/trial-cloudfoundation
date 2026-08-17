@@ -48,25 +48,10 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
         landingzone    = { Company = ["stackit-university"] }
         }))
       }
-      # Sandbox tenants are capped at `editor`, because `owner` additionally grants iam.member.add,
-      # iam.role.add and the per-product role-binding permissions. Those would let a tenant give
-      # STACKIT access to people meshStack does not know about, and meshStack would neither see nor
-      # remove them: it only ever writes role assignments for its own project members.
-      #
-      # Known gap: this does not keep the project itself safe. `editor` carries
-      # resource-manager.project.delete just as `owner` does, so a tenant can still delete the
-      # project while the STACKIT Project building block goes on managing it in terraform. The block's
-      # state then names a project that no longer exists, and its next run fails or recreates it.
-      # Only `reader` lacks the permission, and `reader` is no use to someone meant to build here.
-      #
-      # Closing the gap needs a custom STACKIT role, because a built-in role cannot have a single
-      # permission subtracted from it: `permissions` on stackit_authorization_*_custom_role is an
-      # explicit list, and no data source reads a built-in role to generate one. That means carrying
-      # `editor`'s other 808 permissions in this repo and refreshing them whenever STACKIT ships a
-      # service, or trial users silently lose access to it. Accepted for now, because a tenant can
-      # only delete its own sandbox.
+      # This is an open landing zone: project admins get `owner` so real people can use STACKIT
+      # freely, including granting access and escalating privileges through service accounts.
       role_mapping = { value = jsonencode(jsonencode({
-        admin  = ["editor"]
+        admin  = ["owner"]
         user   = ["editor"]
         reader = ["reader"]
       })) }
