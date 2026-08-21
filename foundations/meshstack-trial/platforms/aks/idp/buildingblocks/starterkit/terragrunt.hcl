@@ -36,7 +36,7 @@ EOF
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/starterkit?ref=43ee4fc7ed51000d5b9b6764292eb8f7156651ad"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/aks/starterkit?ref=176fbdf36debb09dc029b7537fc2562467f3d0e6"
 }
 
 inputs = {
@@ -55,7 +55,7 @@ inputs = {
   github_org                = "try-meshstack"
   github_template_repo_path = "try-meshstack/aks-starterkit-template"
 
-  hub = { git_ref = "43ee4fc7ed51000d5b9b6764292eb8f7156651ad", bbd_draft = false }
+  hub = { git_ref = "176fbdf36debb09dc029b7537fc2562467f3d0e6", bbd_draft = false }
 
   # this is only for app link outputs so the link is rendered correctly when we change the base domain.
   apps_base_domain = "try-meshstack.msh.host"
