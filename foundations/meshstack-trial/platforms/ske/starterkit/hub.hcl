@@ -8,5 +8,5 @@ locals {
   git_ref = "247a4a6adb912d749de29ca9048f4314257709a7"
 
   # Released, not draft: trial users order this definition themselves.
-  bbd_draft = false
+  bbd_draft = true
 }
