@@ -7,10 +7,9 @@ locals {
   meshstack = {
     endpoint = "https://api.try.meshstack.io"
 
-    # The key id comes from Vault like the secret does, matching the sibling `ske` units. The rest
-    # of this repo commits its key id instead — see AGENTS.md.
-    apikey    = get_env("MESHSTACK_STARTER_KIT_API_KEY_ID")
-    apisecret = get_env("MESHSTACK_STARTER_KIT_API_KEY_SECRET")
+    # The smoke test's own API user, separate from the ones the deployment units use: its secret is
+    # the `smoke-test` environment's `MESHSTACK_API_SECRET`, so a new smoke test needs no new secret.
+    apikey = "6bbe883a-c417-408c-8a93-a828d08e3d75"
 
     # Spelled out rather than looked up — the deployment units resolve the same value through
     # `data.meshstack_workspace`, and reaching for their state is what this file exists to avoid.
@@ -25,7 +24,7 @@ generate "provider" {
 provider "meshstack" {
   endpoint  = "${local.meshstack.endpoint}"
   apikey    = "${local.meshstack.apikey}"
-  apisecret = "${local.meshstack.apisecret}"
+  apisecret = "${get_env("MESHSTACK_API_SECRET")}"
 }
 EOF
 }

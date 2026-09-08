@@ -20,11 +20,12 @@ keep a sibling checkout at `../likvid-cloudfoundation`.
 ## What differs here
 
 - **meshStack endpoint** is `https://api.try.meshstack.io`.
-- **Credentials** come from `source setup-env.sh` (Vault secret
-  `concourse/meshstack-dev/trial-cloudfoundation`), which exports every key in that secret. The
-  `ske` units read the meshStack API key **id** from `MESHSTACK_STARTER_KIT_API_KEY_ID` rather than
-  committing it, unlike the rest of this repo and all of likvid — an inconsistency, not a
-  requirement; a key id is not a secret.
-- **No CI.** Everything, smoke tests included, runs from a developer machine. When this repo gets
-  CI, likvid's `.github/workflows/smoke-test.yml` selects smoke tests by the `smoke.hcl` include, so
-  cloning it needs no per-case wiring here.
+- **Deployments run from a developer machine.** `source setup-env.sh` (Vault secret
+  `concourse/meshstack-dev/trial-cloudfoundation`) exports every key in that secret; CI has none of
+  them. The `ske` deployment units read even the meshStack API key **id** from
+  `MESHSTACK_STARTER_KIT_API_KEY_ID` rather than committing it, unlike the rest of this repo — an
+  inconsistency, not a requirement, since a key id is not a secret.
+- **CI runs smoke tests only.** `.github/workflows/smoke-test.yml` mirrors likvid's: it selects
+  units by the `smoke.hcl` include, so a new smoke test needs no CI change. Its one secret is the
+  `smoke-test` environment's `MESHSTACK_API_SECRET` — the environment is named for the job, not for
+  the foundation, because the deployment credentials are not in Actions at all.
