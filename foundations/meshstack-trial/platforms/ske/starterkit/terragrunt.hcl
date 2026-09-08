@@ -46,7 +46,13 @@ EOF
 }
 
 inputs = {
-  meshstack = dependency.meshstack.outputs
+  # The meshBuildingBlockDefinition.Company tag gates visibility: only workspaces whose own
+  # Company tag matches can see and order this definition. Same tag the university building block
+  # sets — without it the definition is untagged and the "Restrict BuildingBlockDefinitions by
+  # Company" policy denies every order, smoke test and trial user alike.
+  meshstack = merge(dependency.meshstack.outputs, {
+    tags = { Company = ["stackit-university"] }
+  })
   hub = {
     git_ref   = include.hub.locals.git_ref
     bbd_draft = include.hub.locals.bbd_draft
