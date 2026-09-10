@@ -24,6 +24,7 @@ generate "smoke_tfvars" {
       workspace   = include.smoke.locals.meshstack.workspace
       bbd_draft   = include.hub.locals.bbd_draft
       name_suffix = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
+      run_id      = "st${run_cmd("--terragrunt-quiet", "date", "-u", "+%y%m%d%H%M")}${run_cmd("--terragrunt-quiet", "sh", "-c", "LC_ALL=C tr -dc a-z0-9 </dev/urandom | head -c 3")}"
     }
   })
 }
