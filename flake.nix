@@ -68,6 +68,7 @@
           # cloud platforms currently not deployed by CI
           kubelogin # for AKS
           stackit-cli # for Stackit
+          skopeo # mirroring container images into STACKIT Harbor
 
           # needed to access secrets
           vault-bin
