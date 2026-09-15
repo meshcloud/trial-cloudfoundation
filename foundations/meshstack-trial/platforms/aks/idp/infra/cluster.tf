@@ -1,5 +1,5 @@
 module "aks" {
-  source = "github.com/meshcloud/meshstack-hub//modules/azure/aks/buildingblock"
+  source = "github.com/meshcloud/meshstack-hub//modules/azure/aks/buildingblock?ref=2e42ad2e8a8766f7bb239f2cbe68900df3057a42"
 
   resource_group_name = "starterkit"
   location            = "germanywestcentral"
