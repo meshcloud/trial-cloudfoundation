@@ -25,7 +25,6 @@ module "stackit_sandbox_landingzone" {
 
   meshstack = {
     owning_workspace_identifier = data.meshstack_workspace.owner.metadata.name
-    tags                        = { Company = ["meshstack-trial"] }
   }
 
   hub = {
