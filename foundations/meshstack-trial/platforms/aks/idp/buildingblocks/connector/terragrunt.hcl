@@ -33,7 +33,6 @@ terraform {
 inputs = {
   meshstack = {
     owning_workspace_identifier = dependency.platform.outputs.owned_by_workspace
-    tags                        = { Company = ["meshstack-trial"] }
   }
   github = {
     repo_definition_uuid = dependency.github_repo.outputs.building_block_definition.uuid

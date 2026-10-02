@@ -1,7 +1,6 @@
 variable "meshstack" {
   type = object({
     owning_workspace_identifier = string
-    tags                        = map(list(string))
   })
 }
 

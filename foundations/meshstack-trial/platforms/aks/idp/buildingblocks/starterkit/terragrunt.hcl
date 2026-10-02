@@ -42,7 +42,6 @@ terraform {
 inputs = {
   meshstack = {
     owning_workspace_identifier = dependency.platform.outputs.owned_by_workspace
-    tags                        = { Company = ["meshstack-trial"] }
   }
 
   platform_ref      = dependency.platform.outputs.platform_ref

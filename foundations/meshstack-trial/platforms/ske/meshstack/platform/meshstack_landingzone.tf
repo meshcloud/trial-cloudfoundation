@@ -40,7 +40,7 @@ resource "meshstack_landingzone" "this" {
   metadata = {
     name               = "ske-namespace-${each.key}"
     owned_by_workspace = var.meshstack.owning_workspace_identifier
-    tags               = { Company = ["meshstack-trial", "stackit-university"] }
+    tags               = {}
   }
 
   spec = {

@@ -205,7 +205,6 @@ resource "meshstack_landingzone" "dev" {
   metadata = {
     name               = "aks-namespace-dev"
     owned_by_workspace = data.meshstack_workspace.meshcloud.metadata.name
-    tags               = { Company = ["meshstack-trial"] }
   }
 
   spec = {
@@ -252,7 +251,6 @@ resource "meshstack_landingzone" "prod" {
   metadata = {
     name               = "aks-namespace-prod"
     owned_by_workspace = data.meshstack_workspace.meshcloud.metadata.name
-    tags               = { Company = ["meshstack-trial"] }
   }
 
   spec = {
