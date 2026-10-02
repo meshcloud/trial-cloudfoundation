@@ -20,9 +20,11 @@ generate "smoke_tfvars" {
   disable_signature = true
   contents = jsonencode({
     test_context = {
-      mode        = "foundation"
-      workspace   = include.smoke.locals.meshstack.workspace
-      bbd_draft   = include.hub.locals.bbd_draft
+      mode                 = "foundation"
+      workspace            = include.smoke.locals.meshstack.workspace
+      definition_workspace = "meshcloud"
+      # A draft is only orderable from its owning workspace, and the smoke test runs in its own.
+      bbd_draft   = false
       name_suffix = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
       run_id      = "st${run_cmd("--terragrunt-quiet", "date", "-u", "+%y%m%d%H%M")}${run_cmd("--terragrunt-quiet", "sh", "-c", "LC_ALL=C tr -dc a-z0-9 </dev/urandom | head -c 3")}"
     }

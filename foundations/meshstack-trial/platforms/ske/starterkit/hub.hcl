@@ -5,8 +5,8 @@
 # the two definitions it creates child building blocks from), so it names their paths itself.
 locals {
   module  = "ske/ske-starterkit"
-  git_ref = "7d33e78a6dd3f004559d45fee62aecf2774a2274"
+  git_ref = "9c13aec4cc3f43b7f6cbc8051710414b3ca3c95a"
 
   # Released, not draft: trial users order this definition themselves.
-  bbd_draft = true
+  bbd_draft = false
 }

@@ -9,11 +9,11 @@ locals {
 
     # The smoke test's own API user, separate from the ones the deployment units use: its secret is
     # the `smoke-test` environment's `MESHSTACK_API_SECRET`, so a new smoke test needs no new secret.
-    apikey = "6bbe883a-c417-408c-8a93-a828d08e3d75"
+    apikey = "10b9892e-54b5-4a32-be35-c89ae37a159c"
 
-    # Spelled out rather than looked up — the deployment units resolve the same value through
-    # `data.meshstack_workspace`, and reaching for their state is what this file exists to avoid.
-    workspace = "meshcloud"
+    # Created by ../smoke-test. Spelled out rather than read from its state, which is what this file
+    # exists to avoid.
+    workspace = "smoke-test"
   }
 }
 

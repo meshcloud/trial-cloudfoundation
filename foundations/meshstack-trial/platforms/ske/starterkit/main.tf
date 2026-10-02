@@ -26,9 +26,7 @@ variable "landing_zone_refs" {
 
 variable "project_tags" {
   type = object({
-    dev : map(list(string))
-    prod : map(list(string))
-
+    stages        = map(map(list(string)))
     owner_tag_key = optional(string, null)
   })
 }
@@ -112,6 +110,7 @@ module "starterkit" {
   landing_zone_refs = var.landing_zone_refs
   project_tags      = var.project_tags
 
+  app_name               = var.template_name
   repo_clone_addr        = var.template_repo_clone_url
   dns_zone_name          = var.dns_zone_name
   add_random_name_suffix = var.add_random_name_suffix
@@ -123,19 +122,13 @@ module "git_repository" {
   meshstack = var.meshstack
   hub       = var.hub
 
-  forgejo_token        = var.forgejo_token
+  forgejo_api_token    = var.forgejo_token
   forgejo_organization = var.forgejo_organization
   forgejo_base_url     = var.forgejo_base_url
-
-  action_secrets = {
-    HARBOR_USERNAME = var.stackit_harbor_push_robot_user
-    HARBOR_PASSWORD = var.stackit_harbor_push_robot_password
-  }
 
   action_variables = {
     HARBOR_REGISTRY = local.stackit_harbor_registry
     HARBOR_PROJECT  = var.stackit_harbor_project
-    APP_NAME        = var.template_name
   }
 }
 
@@ -151,9 +144,11 @@ module "forgejo_connector" {
   forgejo_api_token            = var.forgejo_token
   forgejo_repo_definition_uuid = module.git_repository.building_block_definition.uuid
 
-  harbor_host     = local.stackit_harbor_registry
-  harbor_username = var.stackit_harbor_pull_robot_user
-  harbor_password = var.stackit_harbor_pull_robot_password
+  harbor_host = local.stackit_harbor_registry
+  container_registry_access_credentials = {
+    push = { user = var.stackit_harbor_push_robot_user, password = var.stackit_harbor_push_robot_password }
+    pull = { user = var.stackit_harbor_pull_robot_user, password = var.stackit_harbor_pull_robot_password }
+  }
 
   additional_kubernetes_secrets = local.ai_kubernetes_secrets
 }
