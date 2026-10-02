@@ -46,7 +46,9 @@ EOF
 }
 
 inputs = {
-  meshstack = dependency.meshstack.outputs
+  meshstack = merge(dependency.meshstack.outputs, {
+    tags = { Company = ["meshstack-trial", "stackit-university"] }
+  })
   hub = {
     git_ref   = include.hub.locals.git_ref
     bbd_draft = include.hub.locals.bbd_draft
