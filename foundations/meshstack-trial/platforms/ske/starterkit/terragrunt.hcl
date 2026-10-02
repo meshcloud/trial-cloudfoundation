@@ -79,7 +79,6 @@ inputs = {
 
   project_tags = {
     owner_tag_key = null
-    dev           = {}
-    prod          = {}
+    stages        = { dev = {}, prod = {} }
   }
 }
