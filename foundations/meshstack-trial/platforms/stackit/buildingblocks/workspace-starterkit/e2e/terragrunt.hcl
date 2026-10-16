@@ -5,6 +5,11 @@ include "smoke" {
   expose = true
 }
 
+include "smoke_run" {
+  path   = find_in_parent_folders("smoke_run.hcl")
+  expose = true
+}
+
 include "hub" {
   path   = "../hub.hcl"
   expose = true
@@ -35,8 +40,8 @@ generate "smoke_tfvars" {
       # workspace can order. This is also where the trial-starter orders it from.
       workspace   = "meshcloud"
       bbd_draft   = include.hub.locals.bbd_draft
-      name_suffix = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
-      run_id      = "st${run_cmd("--terragrunt-quiet", "date", "-u", "+%y%m%d%H%M")}${run_cmd("--terragrunt-quiet", "sh", "-c", "LC_ALL=C tr -dc a-z0-9 </dev/urandom | head -c 3")}"
+      name_suffix = include.smoke_run.locals.name_suffix
+      run_id      = include.smoke_run.locals.run_id
 
       # Becomes owner of each short-lived workspace and project a run creates.
       owner_username = "jrudolph@meshcloud.io"
