@@ -11,3 +11,16 @@ provider "meshstack" {
 }
 EOF
 }
+
+# Hub coordinates live in hub.hcl (single source of truth, shared with e2e/).
+include "hub" {
+  path   = "./hub.hcl"
+  expose = true
+}
+
+inputs = {
+  hub = {
+    git_ref   = include.hub.locals.git_ref
+    bbd_draft = include.hub.locals.bbd_draft
+  }
+}
