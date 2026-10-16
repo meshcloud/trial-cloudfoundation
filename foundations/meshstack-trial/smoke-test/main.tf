@@ -23,6 +23,9 @@ resource "meshstack_api_key" "smoke_test" {
       "ADM_BUILDINGBLOCK_DELETE",
       "ADM_BUILDINGBLOCK_LIST",
       "ADM_BUILDINGBLOCK_SAVE",
+      # The federation smoke test registers a probe definition in `smoke-test-stackit`.
+      "ADM_BUILDINGBLOCKDEFINITION_DELETE",
+      "ADM_BUILDINGBLOCKDEFINITION_SAVE",
       "ADM_BUILDINGBLOCKRUN_LIST",
       "BUILDINGBLOCKDEFINITION_LIST",
       "BUILDINGBLOCK_DELETE",
