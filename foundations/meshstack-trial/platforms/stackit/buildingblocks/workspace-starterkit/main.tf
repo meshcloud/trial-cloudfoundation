@@ -1,28 +1,13 @@
-# Owns every resource the workspace-starterkit building block creates or deletes on the
-# admin-scoped provider it authenticates with (see modules/meshstack/workspace-starterkit).
-# Created here instead of injected from the environment so no admin credential needs to be
-# provisioned or rotated by hand.
-resource "meshstack_api_key" "workspace_starterkit_admin" {
-  metadata = {
-    owned_by_workspace = "meshcloud"
-  }
-
-  spec = {
-    display_name = "workspace-starterkit-admin"
-    permissions = [
-      "ADM_WORKSPACE_SAVE", "ADM_WORKSPACE_LIST", "ADM_WORKSPACE_DELETE",
-      "ADM_PAYMENTMETHOD_SAVE", "ADM_PAYMENTMETHOD_LIST", "ADM_PAYMENTMETHOD_DELETE",
-      "ADM_PROJECT_SAVE", "ADM_PROJECT_LIST", "ADM_PROJECT_DELETE",
-      "ADM_TENANT_SAVE", "ADM_TENANT_LIST", "ADM_TENANT_DELETE",
-      "ADM_WORKSPACEPRINCIPALBINDING_SAVE", "ADM_WORKSPACEPRINCIPALBINDING_LIST", "ADM_WORKSPACEPRINCIPALBINDING_DELETE",
-      "ADM_PROJECTPRINCIPALROLE_SAVE", "ADM_PROJECTPRINCIPALROLE_LIST", "ADM_PROJECTPRINCIPALROLE_DELETE",
-    ]
-  }
+# The hub module now mints this key in its backplane. Moving it there keeps the key and its secret,
+# so the building block definition's credential inputs stay the same.
+moved {
+  from = meshstack_api_key.workspace_starterkit_admin
+  to   = module.workspace_starterkit.module.backplane.meshstack_api_key.automation
 }
 
 locals {
   hub = {
-    git_ref = "e7ce957b33283b257e073d6b81f0e95d0f5fd546"
+    git_ref = "9c13aec4cc3f43b7f6cbc8051710414b3ca3c95a"
     # Vital: keeps this BBD in draft. A draft BBD is only orderable from its owning workspace
     # (meshcloud), never published to the marketplace — we want this hidden, not offered generally.
     bbd_draft = true
@@ -56,8 +41,9 @@ module "workspace_starterkit" {
   platform_uuid     = "b66e3542-5887-4d48-9f06-968dbc98d97c"
   landing_zone_name = "stackit-sandbox-default"
 
-  meshstack_admin_api_key    = meshstack_api_key.workspace_starterkit_admin.status.client_id
-  meshstack_admin_api_secret = meshstack_api_key.workspace_starterkit_admin.status.client_secret
-
   workspace_expiry_tag_key = "TrialEnd"
+
+  # We deploy from developer machines, and rarely. A short lifetime would let the key expire between
+  # applies, which stops every run of this building block.
+  api_key_lifetime_days = 365
 }
