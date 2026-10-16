@@ -18,6 +18,11 @@ resource "meshstack_api_key" "smoke_test" {
   spec = {
     display_name = "smoke-test"
     permissions = [
+      # The workspace starterkit is a draft in `meshcloud`, so its smoke test orders there.
+      "ADM_BUILDINGBLOCKDEFINITION_LIST",
+      "ADM_BUILDINGBLOCK_DELETE",
+      "ADM_BUILDINGBLOCK_LIST",
+      "ADM_BUILDINGBLOCK_SAVE",
       "ADM_BUILDINGBLOCKRUN_LIST",
       "BUILDINGBLOCKDEFINITION_LIST",
       "BUILDINGBLOCK_DELETE",
