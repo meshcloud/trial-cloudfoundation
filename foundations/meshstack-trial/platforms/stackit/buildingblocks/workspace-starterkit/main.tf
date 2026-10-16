@@ -5,17 +5,15 @@ moved {
   to   = module.workspace_starterkit.module.backplane.meshstack_api_key.automation
 }
 
-locals {
-  hub = {
-    git_ref = "9c13aec4cc3f43b7f6cbc8051710414b3ca3c95a"
-    # Vital: keeps this BBD in draft. A draft BBD is only orderable from its owning workspace
-    # (meshcloud), never published to the marketplace — we want this hidden, not offered generally.
-    bbd_draft = true
-  }
+variable "hub" {
+  type = object({
+    git_ref   = string
+    bbd_draft = bool
+  })
 }
 
 module "workspace_starterkit" {
-  source = "github.com/meshcloud/meshstack-hub//modules/meshstack/workspace-starterkit?ref=${local.hub.git_ref}"
+  source = "github.com/meshcloud/meshstack-hub//modules/meshstack/workspace-starterkit?ref=${var.hub.git_ref}"
 
   meshstack = {
     owning_workspace_identifier = "meshcloud"
@@ -35,7 +33,7 @@ module "workspace_starterkit" {
     }
   }
 
-  hub = local.hub
+  hub = var.hub
 
   # STACKIT University sandbox: every onboarded team gets a project+tenant here.
   platform_uuid     = "b66e3542-5887-4d48-9f06-968dbc98d97c"
