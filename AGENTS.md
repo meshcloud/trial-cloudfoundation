@@ -16,6 +16,9 @@ keep a sibling checkout at `../likvid-cloudfoundation`.
 - **[`.agents/skills/hub`](https://github.com/likvid-bank/likvid-cloudfoundation/blob/main/.agents/skills/hub/SKILL.md)**
   — consume [meshstack-hub](https://github.com/meshcloud/meshstack-hub) modules as deployed building
   blocks, and the foundation e2e smoke-test protocol.
+- **[`meshstack-cli`](https://github.com/meshcloud/meshstack-cli/blob/main/skills/meshstack-cli/SKILL.md)**
+  — query meshStack, follow runs and order building blocks with the `meshstack` CLI. It lives in
+  the CLI repository; keep a sibling checkout at `../meshstack-cli`.
 
 ## What differs here
 
