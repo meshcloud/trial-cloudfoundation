@@ -15,7 +15,7 @@ data "meshstack_workspace" "owner" {
 }
 
 locals {
-  git_ref = "f656771c31a38c548b7cef540dc97b6a8754e49e"
+  git_ref = "eab6b8139c61bb12bdac3a189c19c968bbb8f1bd"
 }
 
 module "stackit_sandbox_landingzone" {
@@ -31,6 +31,17 @@ module "stackit_sandbox_landingzone" {
     git_ref   = local.git_ref
     bbd_draft = true
   }
+
+  # Set in meshPanel before this unit managed them; leaving them out would turn them off.
+  approval_policies = {
+    any_input_changes  = true
+    manual_triggers    = true
+    user_input_changes = true
+    version_upgrade    = true
+  }
+
+  # Trial users work on this platform, so it keeps the plain identifier `stackit-sandbox`.
+  playground_mode = false
 }
 
 
@@ -44,10 +55,11 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
     inputs = {
       platform_identifier = { value = jsonencode("stackit-sandbox") }
       tags = { value = jsonencode(jsonencode({
-        building_block = { Company = ["stackit-university"] },
-        landingzone    = { Company = ["stackit-university"] }
-        }))
-      }
+        building_block        = [{ key = "Company", values = ["stackit-university"] }]
+        landingzone           = [{ key = "Company", values = ["stackit-university"] }]
+        project               = []
+        project_owner_tag_key = ""
+      })) }
       # This is an open landing zone: project admins get `owner` so real people can use STACKIT
       # freely, including granting access and escalating privileges through service accounts.
       role_mapping = { value = jsonencode(jsonencode({
@@ -55,13 +67,13 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
         user   = ["editor"]
         reader = ["reader"]
       })) }
-      stackit_org         = { value = jsonencode(local.stackit_org) }
-      stackit_owner_email = { value = jsonencode(local.stackit_owner_email) }
-      stackit_service_account_key = { sensitive = {
-        secret_value   = var.stackit_service_account_key
-        secret_version = nonsensitive(sha256(var.stackit_service_account_key))
-      } }
-      use_global_location = { value = jsonencode(true) }
+      stackit_org                 = { value = jsonencode(local.stackit_org) }
+      stackit_owner_email         = { value = jsonencode(local.stackit_owner_email) }
+      stackit_service_account_key = { sensitive = provider::meshstack::non_ephemeral_secret(nonsensitive(var.stackit_service_account_key)) }
+      use_global_location         = { value = jsonencode(true) }
+
+      stackit_organization_onboarding_enabled = { value = jsonencode(true) }
+      topology                                = { value = jsonencode(["sandbox"]) }
     }
   }
 }
