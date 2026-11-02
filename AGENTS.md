@@ -29,12 +29,13 @@ keep a sibling checkout at `../likvid-cloudfoundation`.
 - **The meshstack provider logs in with your meshstack CLI profile.** Units set only `endpoint`
   and `workspace`, so the provider uses the profile whose endpoint is
   `https://api.try.meshstack.io` (`meshstack login --endpoint https://api.try.meshstack.io`). Your
-  user needs a role in the unit's workspace, mostly `meshcloud`; an Organization Admin also keeps
-  restricted tags such as `Company` on what the unit creates. Do not export `MESHSTACK_API_KEY` or
-  `MESHSTACK_API_SECRET` locally: an API key wins over the profile. Exceptions: the `ske` units read
-  their API key from `MESHSTACK_STARTER_KIT_API_KEY_*`, and the AKS `connector` and `github-repo`
-  units from `MESHSTACK_API_SECRET_AKS_IDP`, because their hub modules pin provider `~> 0.20.0`,
-  which predates profiles.
+  user needs a role in the unit's workspace, mostly `meshcloud`. A login acts with admin rights only
+  in `cloudfoundation-admin`; in `meshcloud` meshStack drops a restricted tag such as `Company` that
+  an object does not carry yet, so set it once with `--workspace cloudfoundation-admin`. Do not
+  export `MESHSTACK_API_KEY` or `MESHSTACK_API_SECRET` locally: an API key wins over the profile.
+  Exceptions: the `ske` units read their API key from `MESHSTACK_STARTER_KIT_API_KEY_*`, and the AKS
+  `connector` and `github-repo` units from `MESHSTACK_API_SECRET_AKS_IDP`, because their hub modules
+  pin provider `~> 0.20.0`, which predates profiles.
 - **CI runs smoke tests only.** `.github/workflows/smoke-test.yml` mirrors likvid's: it selects
   units by the `smoke.hcl` include, so a new smoke test needs no CI change. The tests use one
   secret, the `smoke-test` environment's `MESHSTACK_API_SECRET` — the environment is named for the
