@@ -7,10 +7,6 @@ locals {
   meshstack = {
     endpoint = "https://api.try.meshstack.io"
 
-    # The smoke test's own API user, separate from the ones the deployment units use: its secret is
-    # the `smoke-test` environment's `MESHSTACK_API_SECRET`, so a new smoke test needs no new secret.
-    apikey = "10b9892e-54b5-4a32-be35-c89ae37a159c"
-
     # Created by ../smoke-test. Spelled out rather than read from its state, which is what this file
     # exists to avoid.
     workspace = "smoke-test"
@@ -21,10 +17,12 @@ generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
   contents  = <<EOF
+# CI authenticates with the smoke test's API key from MESHSTACK_API_KEY and MESHSTACK_API_SECRET,
+# which ignores the workspace. A local run uses the meshstack CLI profile for the endpoint, whose
+# user has a role in `meshcloud` and none in `smoke-test`.
 provider "meshstack" {
   endpoint  = "${local.meshstack.endpoint}"
-  apikey    = "${local.meshstack.apikey}"
-  apisecret = "${get_env("MESHSTACK_API_SECRET")}"
+  workspace = "meshcloud"
 }
 EOF
 }

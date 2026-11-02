@@ -4,7 +4,7 @@ terraform {
   required_providers {
     meshstack = {
       source  = "meshcloud/meshstack"
-      version = ">= 0.23.1"
+      version = ">= 0.26.8"
     }
     stackit = {
       source  = "stackitcloud/stackit"

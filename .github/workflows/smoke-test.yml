@@ -46,7 +46,9 @@ jobs:
       TG_NON_INTERACTIVE: true
       TF_IN_AUTOMATION: true
 
-      # This list stays at one entry — see the `hub` skill before growing it.
+      # The secret list stays at one entry — see the `hub` skill before growing it. The key id is
+      # the smoke test's own API key, which ../smoke-test creates in workspace `smoke-test`.
+      MESHSTACK_API_KEY: 10b9892e-54b5-4a32-be35-c89ae37a159c
       MESHSTACK_API_SECRET: ${{ secrets.MESHSTACK_API_SECRET }}
 
     steps:

@@ -8,6 +8,7 @@ generate "provider" {
   contents  = <<EOF
 provider "meshstack" {
   endpoint  = "https://api.try.meshstack.io"
+  workspace = "meshcloud"
 }
 EOF
 }

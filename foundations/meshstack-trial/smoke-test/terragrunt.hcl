@@ -8,7 +8,8 @@ generate "provider" {
   contents  = <<EOF
 # Runs as the meshstack-cli login whose profile matches this endpoint; it must be in the admin area.
 provider "meshstack" {
-  endpoint = "https://api.try.meshstack.io"
+  endpoint  = "https://api.try.meshstack.io"
+  workspace = "cloudfoundation-admin"
 }
 
 provider "github" {

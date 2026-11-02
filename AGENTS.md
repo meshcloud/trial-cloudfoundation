@@ -25,9 +25,16 @@ keep a sibling checkout at `../likvid-cloudfoundation`.
 - **meshStack endpoint** is `https://api.try.meshstack.io`.
 - **Deployments run from a developer machine.** `source setup-env.sh` (Vault secret
   `concourse/meshstack-dev/trial-cloudfoundation`) exports every key in that secret; CI has none of
-  them. The `ske` deployment units read even the meshStack API key **id** from
-  `MESHSTACK_STARTER_KIT_API_KEY_ID` rather than committing it, unlike the rest of this repo — an
-  inconsistency, not a requirement, since a key id is not a secret.
+  them.
+- **The meshstack provider logs in with your meshstack CLI profile.** Units set only `endpoint`
+  and `workspace`, so the provider uses the profile whose endpoint is
+  `https://api.try.meshstack.io` (`meshstack login --endpoint https://api.try.meshstack.io`). Your
+  user needs a role in the unit's workspace, mostly `meshcloud`; an Organization Admin also keeps
+  restricted tags such as `Company` on what the unit creates. Do not export `MESHSTACK_API_KEY` or
+  `MESHSTACK_API_SECRET` locally: an API key wins over the profile. Exceptions: the `ske` units read
+  their API key from `MESHSTACK_STARTER_KIT_API_KEY_*`, and the AKS `connector` and `github-repo`
+  units from `MESHSTACK_API_SECRET_AKS_IDP`, because their hub modules pin provider `~> 0.20.0`,
+  which predates profiles.
 - **CI runs smoke tests only.** `.github/workflows/smoke-test.yml` mirrors likvid's: it selects
   units by the `smoke.hcl` include, so a new smoke test needs no CI change. The tests use one
   secret, the `smoke-test` environment's `MESHSTACK_API_SECRET` — the environment is named for the
