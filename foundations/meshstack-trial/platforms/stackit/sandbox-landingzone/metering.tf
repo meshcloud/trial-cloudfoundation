@@ -10,7 +10,7 @@
 resource "stackit_resourcemanager_project" "metering" {
   name                = "trial-metering"
   owner_email         = local.stackit_owner_email
-  parent_container_id = local.stackit_org
+  parent_container_id = jsondecode(meshstack_building_block.stackit_sandbox_landingzone.status.outputs["root_container_id"].value)
 }
 
 resource "stackit_service_account" "metering" {

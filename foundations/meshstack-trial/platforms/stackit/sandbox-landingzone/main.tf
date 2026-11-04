@@ -15,7 +15,7 @@ data "meshstack_workspace" "owner" {
 }
 
 locals {
-  git_ref = "4026c3edc64707a52f7e974e2b9a4a603cdaae4a"
+  git_ref = "d0317b287123840b55f399f2aaf52bbbde5fccdb"
 }
 
 module "stackit_sandbox_landingzone" {
@@ -68,6 +68,7 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
         reader = ["reader"]
       })) }
       stackit_org                 = { value = jsonencode(local.stackit_org) }
+      root_folder_name            = { value = jsonencode("meshstack-trial") }
       stackit_owner_email         = { value = jsonencode(local.stackit_owner_email) }
       stackit_service_account_key = { sensitive = provider::meshstack::non_ephemeral_secret(nonsensitive(var.stackit_service_account_key)) }
       use_global_location         = { value = jsonencode(true) }
