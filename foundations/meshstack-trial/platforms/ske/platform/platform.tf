@@ -2,6 +2,24 @@ locals {
   import_secrets = jsonencode({ git = { forgejo_api_token = var.forgejo_api_token } })
 
   # Trial namespaces get no storage.
+  # Every first run and every change waits for review while the live platform is adopted.
+  approval_policies = {
+    building_block_creation = true
+    user_input_changes      = false
+    any_input_changes       = true
+    manual_triggers         = true
+    version_upgrade         = true
+  }
+
+  # Application teams move to the new starterkit version only through a reviewed upgrade.
+  starterkit_approval_policies = {
+    building_block_creation = false
+    user_input_changes      = false
+    any_input_changes       = false
+    manual_triggers         = false
+    version_upgrade         = true
+  }
+
   stage_quotas = {
     dev = [
       { key = "limits.cpu", value = 500 },
@@ -88,19 +106,7 @@ module "stackit_kubernetes" {
     bbd_draft = true
   }
 
-  playground_mode = false
-
-  # Every first run and every change waits for review while the live platform is adopted.
-  approval_policies = {
-    building_block_creation = true
-    any_input_changes       = true
-    manual_triggers         = true
-    version_upgrade         = true
-  }
-  # Application teams move to the new starterkit version only through a reviewed upgrade.
-  starterkit_approval_policies = {
-    version_upgrade = true
-  }
+  approval_policies = local.approval_policies
 }
 
 resource "meshstack_building_block" "platform" {
@@ -134,6 +140,7 @@ resource "meshstack_building_block" "platform" {
       })) }
       landingzone_variant  = { value = jsonencode("default") }
       platform_identifier  = { value = jsonencode("try-meshstack") }
+      playground_mode      = { value = jsonencode(false) }
       project_identifier   = { value = jsonencode("stackit-kubernetes-platform") }
       cluster_name         = { value = jsonencode("try-mesh") }
       cluster_issuer_email = { value = jsonencode("ske@meshcloud.io") }
@@ -147,23 +154,25 @@ resource "meshstack_building_block" "platform" {
       starterkit_repo_clone_addr = { value = jsonencode("https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git") }
 
       tags = { value = jsonencode(jsonencode({
-        project                   = {}
-        starterkit_project        = {}
-        landingzone               = {}
-        building_block            = {}
-        starterkit_building_block = {}
-        project_owner_tag_key     = ""
+        project                   = []
+        starterkit_project        = []
+        landingzone               = []
+        building_block            = []
+        starterkit_building_block = []
       })) }
-      stages = { value = jsonencode(jsonencode({
-        for stage, quotas in local.stage_quotas : stage => { landingzone = {}, project = {}, quotas = quotas }
-      })) }
+      stages = { value = jsonencode(jsonencode([
+        for stage, quotas in local.stage_quotas : { name = stage, landingzone = [], project = [], quotas = quotas }
+      ])) }
+
+      approval_policies            = { value = jsonencode(jsonencode(local.approval_policies)) }
+      starterkit_approval_policies = { value = jsonencode(jsonencode(local.starterkit_approval_policies)) }
 
       imports = { value = jsonencode(jsonencode({
         project = {
           display_name   = "STACKIT Kubernetes Platform"
           admin_bindings = {}
         }
-        ske = {}
+        adopt_ske = true
         git = {
           instance_id          = "bddcefe5-004c-4a7a-b40e-decc66d3649c"
           instance_name        = "try-meshstack"
@@ -173,7 +182,7 @@ resource "meshstack_building_block" "platform" {
           zone_id       = "25c3c750-caa8-4d6b-a6a4-54f0e1102747"
           record_set_id = "83e11514-c7d8-4080-af18-c97bb7785d99"
         }
-        ingress = {}
+        adopt_ingress = true
         kubernetes_platform = {
           platform_name = "ske-namespace"
           location_name = "global"
