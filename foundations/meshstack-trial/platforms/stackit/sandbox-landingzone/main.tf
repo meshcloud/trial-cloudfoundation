@@ -15,7 +15,7 @@ data "meshstack_workspace" "owner" {
 }
 
 locals {
-  git_ref = "cd930df61adb8671afb9782c4b82fc121ce779ff"
+  git_ref = "00388ade2aa056e7ca72ca3189331da11794332a"
 }
 
 module "stackit_sandbox_landingzone" {
@@ -72,8 +72,6 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
       stackit_service_account_key = { sensitive = provider::meshstack::non_ephemeral_secret(nonsensitive(var.stackit_service_account_key)) }
       use_global_location         = { value = jsonencode(true) }
       topology                    = { value = jsonencode(["sandbox"]) }
-      # Sent although empty: meshStack sends nothing for an optional input this block predates.
-      imports = { value = jsonencode(null) }
       starterkit_approval_policies = { value = jsonencode(jsonencode({
         building_block_creation = false
         user_input_changes      = false

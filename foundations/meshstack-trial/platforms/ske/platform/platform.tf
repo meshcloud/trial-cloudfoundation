@@ -1,7 +1,6 @@
 locals {
   import_secrets = jsonencode({ git = { forgejo_api_token = var.forgejo_api_token } })
 
-  # Trial namespaces get no storage.
   # Every first run and every change waits for review while the live platform is adopted.
   approval_policies = {
     building_block_creation = true
@@ -20,6 +19,7 @@ locals {
     version_upgrade         = true
   }
 
+  # Trial namespaces get no storage.
   stage_quotas = {
     dev = [
       { key = "limits.cpu", value = 500 },
@@ -114,8 +114,8 @@ resource "meshstack_building_block" "platform" {
 
   lifecycle {
     postcondition {
-      condition     = self.status.status == "SUCCEEDED"
-      error_message = "Building block ${self.metadata.uuid} ended in ${self.status.status}. See its run in meshPanel."
+      condition     = self.status.succeeded
+      error_message = "Building block ${self.metadata.uuid} did not succeed: health status ${self.status.health_status}, action ${self.status.action}. See its run in meshPanel."
     }
   }
 
@@ -131,27 +131,34 @@ resource "meshstack_building_block" "platform" {
     # A replaced tenant deletes the STACKIT project through its "STACKIT Project" building block.
     inputs = {
       landingzone = { value = jsonencode(jsonencode({
-        platform_ref = { uuid = local.stackit_platform_uuid, kind = "meshPlatform" }
+        platform_ref = { uuid = local.stackit_platform_uuid }
         landingzone_refs = {
-          default = { name = "stackit-sandbox-default", kind = "meshLandingZone" }
+          default = { name = "stackit-sandbox-default" }
         }
-        service_account_bbd_version_ref            = { uuid = data.meshstack_building_block_definition.service_account.version_latest.uuid }
-        service_account_federation_bbd_version_ref = { uuid = data.meshstack_building_block_definition.service_account_federation.version_latest.uuid }
+        service_account_bbd_version_ref            = data.meshstack_building_block_definition.service_account.version_latest
+        service_account_federation_bbd_version_ref = data.meshstack_building_block_definition.service_account_federation.version_latest
       })) }
-      landingzone_variant  = { value = jsonencode("default") }
-      platform_identifier  = { value = jsonencode("try-meshstack") }
-      playground_mode      = { value = jsonencode(false) }
-      project_identifier   = { value = jsonencode("stackit-kubernetes-platform") }
-      cluster_name         = { value = jsonencode("try-mesh") }
-      cluster_issuer_email = { value = jsonencode("ske@meshcloud.io") }
-      dns_subdomain        = { value = jsonencode("try-meshstack") }
-      dns_parent_domain    = { value = jsonencode("stackit.run") }
-      ai_model             = { value = jsonencode("openai/gpt-oss-120b") }
-      phase2_completed     = { value = jsonencode(false) }
-      quota_definitions    = { value = jsonencode(jsonencode(local.quota_definitions)) }
+      landingzone_variant = { value = jsonencode("default") }
+      platform_identifier = { value = jsonencode("try-meshstack") }
+      playground_mode     = { value = jsonencode(false) }
+      # The legacy starterkit created its projects with a suffix.
+      starterkit_add_random_name_suffix = { value = jsonencode(true) }
+      use_global_location               = { value = jsonencode(true) }
+      payment_method                    = { value = jsonencode({ kind = "meshPaymentMethod", name = "meshcloud-budget" }) }
+      dns_domain                        = { value = jsonencode("stackit.run") }
+      phase2_completed                  = { value = jsonencode(false) }
 
-      starterkit_app_name        = { value = jsonencode("ai-summarizer") }
-      starterkit_repo_clone_addr = { value = jsonencode("https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git") }
+      starterkit_demo = { value = jsonencode(jsonencode({
+        name          = "ai-summarizer"
+        template_repo = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+        ai_model      = "openai/gpt-oss-120b"
+      })) }
+      overrides = { value = jsonencode(jsonencode({
+        project_identifier   = "stackit-kubernetes-platform"
+        cluster_name         = "try-mesh"
+        cluster_issuer_email = "ske@meshcloud.io"
+      })) }
+      quota_definitions = { value = jsonencode(jsonencode(local.quota_definitions)) }
 
       tags = { value = jsonencode(jsonencode({
         project                   = []

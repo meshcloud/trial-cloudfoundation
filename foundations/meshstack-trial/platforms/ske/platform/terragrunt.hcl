@@ -14,6 +14,6 @@ EOF
 }
 
 inputs = {
-  hub_ref           = "bcf874845e1dc2533917379c9bb169fb31a7eff4"
+  hub_ref           = "00388ade2aa056e7ca72ca3189331da11794332a"
   forgejo_api_token = get_env("STACKIT_GIT_FORGEJO_TOKEN")
 }
