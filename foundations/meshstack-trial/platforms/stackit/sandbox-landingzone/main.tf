@@ -15,7 +15,7 @@ data "meshstack_workspace" "owner" {
 }
 
 locals {
-  git_ref = "d0317b287123840b55f399f2aaf52bbbde5fccdb"
+  git_ref = "cd930df61adb8671afb9782c4b82fc121ce779ff"
 }
 
 module "stackit_sandbox_landingzone" {
@@ -39,9 +39,6 @@ module "stackit_sandbox_landingzone" {
     user_input_changes = true
     version_upgrade    = true
   }
-
-  # Trial users work on this platform, so it keeps the plain identifier `stackit-sandbox`.
-  playground_mode = false
 }
 
 
@@ -54,6 +51,8 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
 
     inputs = {
       platform_identifier = { value = jsonencode("stackit-sandbox") }
+      # Trial users work on this platform, so it keeps the plain identifier `stackit-sandbox`.
+      playground_mode = { value = jsonencode(false) }
       tags = { value = jsonencode(jsonencode({
         building_block        = [{ key = "Company", values = ["stackit-university"] }]
         landingzone           = [{ key = "Company", values = ["stackit-university"] }]
@@ -72,9 +71,16 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
       stackit_owner_email         = { value = jsonencode(local.stackit_owner_email) }
       stackit_service_account_key = { sensitive = provider::meshstack::non_ephemeral_secret(nonsensitive(var.stackit_service_account_key)) }
       use_global_location         = { value = jsonencode(true) }
-
-      stackit_organization_onboarding_enabled = { value = jsonencode(true) }
-      topology                                = { value = jsonencode(["sandbox"]) }
+      topology                    = { value = jsonencode(["sandbox"]) }
+      # Sent although empty: meshStack sends nothing for an optional input this block predates.
+      imports = { value = jsonencode(null) }
+      starterkit_approval_policies = { value = jsonencode(jsonencode({
+        building_block_creation = false
+        user_input_changes      = false
+        any_input_changes       = false
+        manual_triggers         = false
+        version_upgrade         = false
+      })) }
     }
   }
 }
