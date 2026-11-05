@@ -5,9 +5,6 @@ workspace `meshcloud`. It owns the cluster `try-mesh`, Git, DNS, ingress, the co
 the meshPlatform `ske-namespace` with its landing zones and the starterkit definitions application
 teams order.
 
-[`starterkit`](starterkit) keeps the Model Serving token that building blocks on the old starterkit
-versions put into their namespaces; it goes once they are all upgraded.
-
 ## Access Kubernetes cluster
 
 ```bash
