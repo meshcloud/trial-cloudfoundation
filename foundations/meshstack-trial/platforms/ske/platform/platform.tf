@@ -1,15 +1,5 @@
 locals {
-  # Every first run and every change waits for review while the live platform is adopted.
-  approval_policies = {
-    building_block_creation = true
-    user_input_changes      = false
-    any_input_changes       = true
-    manual_triggers         = true
-    version_upgrade         = true
-  }
-
-  # Application teams move to the new starterkit version only through a reviewed upgrade.
-  starterkit_approval_policies = {
+  version_upgrade_gate = {
     building_block_creation = false
     user_input_changes      = false
     any_input_changes       = false
@@ -105,10 +95,10 @@ module "stackit_kubernetes" {
   }
   hub = {
     git_ref   = var.hub_ref
-    bbd_draft = true
+    bbd_draft = false
   }
 
-  approval_policies = local.approval_policies
+  approval_policies = local.version_upgrade_gate
 }
 
 resource "meshstack_building_block" "platform" {
@@ -173,8 +163,9 @@ resource "meshstack_building_block" "platform" {
         for stage, quotas in local.stage_quotas : { name = stage, landingzone = [], project = [], quotas = quotas }
       ])) }
 
-      approval_policies            = { value = jsonencode(jsonencode(local.approval_policies)) }
-      starterkit_approval_policies = { value = jsonencode(jsonencode(local.starterkit_approval_policies)) }
+      approval_policies = { value = jsonencode(jsonencode(local.version_upgrade_gate)) }
+      # Application teams move to the new starterkit version only through a reviewed upgrade.
+      starterkit_approval_policies = { value = jsonencode(jsonencode(local.version_upgrade_gate)) }
 
       imports = { value = jsonencode(jsonencode({
         project = {
