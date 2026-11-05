@@ -1,6 +1,4 @@
 locals {
-  import_secrets = jsonencode({ git = { forgejo_api_token = var.forgejo_api_token } })
-
   # Every first run and every change waits for review while the live platform is adopted.
   approval_policies = {
     building_block_creation = true
@@ -150,7 +148,7 @@ resource "meshstack_building_block" "platform" {
       use_global_location               = { value = jsonencode(true) }
       payment_method                    = { value = jsonencode({ kind = "meshPaymentMethod", name = "meshcloud-budget" }) }
       dns_domain                        = { value = jsonencode("stackit.run") }
-      phase2_completed                  = { value = jsonencode(false) }
+      phase2_completed                  = { value = jsonencode(true) }
 
       starterkit_demo = { value = jsonencode(jsonencode({
         name          = "ai-summarizer"
@@ -208,10 +206,11 @@ resource "meshstack_building_block" "platform" {
           forgejo_connector = "7d2f9d36-6970-451d-9462-3938b50ba4df"
         }
       })) }
+      # Empty since the Forgejo organization is adopted; leaving the input out would keep the stored token.
       import_secrets = {
         sensitive = {
-          secret_value   = local.import_secrets
-          secret_version = nonsensitive(sha256(local.import_secrets))
+          secret_value   = jsonencode({})
+          secret_version = sha256(jsonencode({}))
         }
       }
     }
