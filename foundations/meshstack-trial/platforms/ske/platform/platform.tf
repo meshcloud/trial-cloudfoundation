@@ -100,7 +100,11 @@ locals {
 module "stackit_kubernetes" {
   source = "git::https://github.com/meshcloud/meshstack-hub.git//reference-architectures/stackit-kubernetes?ref=${var.hub_ref}"
 
-  meshstack = { owning_workspace_identifier = local.owning_workspace_identifier }
+  meshstack = {
+    owning_workspace_identifier = local.owning_workspace_identifier
+    # The policy "Restrict BuildingBlockDefinitions by Company" refuses orders in meshcloud of an untagged definition.
+    tags = { Company = ["stackit-university"] }
+  }
   hub = {
     git_ref   = var.hub_ref
     bbd_draft = true
