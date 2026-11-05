@@ -12,7 +12,7 @@ on:
         default: meshstack-trial
         type: string
       prefix:
-        description: "Optional. Path under the foundation to limit the run to, e.g. 'platforms/ske' or 'platforms/ske/starterkit/e2e'. Empty = every smoke test in the foundation."
+        description: "Optional. Path under the foundation to limit the run to, e.g. 'platforms/stackit'. Empty = every smoke test in the foundation."
         required: false
         default: ""
         type: string
