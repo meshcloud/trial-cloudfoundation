@@ -197,13 +197,6 @@ resource "meshstack_building_block" "platform" {
           forgejo_connector = "7d2f9d36-6970-451d-9462-3938b50ba4df"
         }
       })) }
-      # Empty since the Forgejo organization is adopted; leaving the input out would keep the stored token.
-      import_secrets = {
-        sensitive = {
-          secret_value   = jsonencode({})
-          secret_version = sha256(jsonencode({}))
-        }
-      }
     }
   }
 }
