@@ -114,7 +114,7 @@ resource "meshstack_building_block" "platform" {
   spec = {
     building_block_definition_version_ref = module.stackit_kubernetes.building_block_definition.version_ref
 
-    display_name = "STACKIT Kubernetes Platform"
+    display_name = "STACKIT Kubernetes Platform try-meshstack"
     target_ref = {
       kind = "meshWorkspace"
       name = local.owning_workspace_identifier
@@ -169,7 +169,6 @@ resource "meshstack_building_block" "platform" {
 
       imports = { value = jsonencode(jsonencode({
         project = {
-          display_name   = "STACKIT Kubernetes Platform"
           admin_bindings = {}
         }
         adopt_ske = true

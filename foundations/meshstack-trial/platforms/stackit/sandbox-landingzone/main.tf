@@ -15,7 +15,7 @@ data "meshstack_workspace" "owner" {
 }
 
 locals {
-  git_ref = "fef0ef7c10c0eb31ee0edbffd3354b2049d74a3a"
+  git_ref = "aa35ccb0074d5ccf58739d290422cdd9e762dff4"
 }
 
 module "stackit_sandbox_landingzone" {
@@ -46,7 +46,7 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
   spec = {
     building_block_definition_version_ref = module.stackit_sandbox_landingzone.building_block_definition.version_ref
 
-    display_name = "STACKIT Sandbox Landingzone Architecture"
+    display_name = "STACKIT Landing Zone stackit-sandbox"
     target_ref   = data.meshstack_workspace.owner.ref
 
     inputs = {
