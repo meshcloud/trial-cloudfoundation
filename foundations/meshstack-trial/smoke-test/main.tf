@@ -39,6 +39,7 @@ resource "meshstack_api_key" "smoke_test" {
       "BUILDINGBLOCK_DELETE",
       "BUILDINGBLOCK_LIST",
       "BUILDINGBLOCK_SAVE",
+      "PAYMENTMETHOD_LIST",
       "PROJECT_DELETE",
       "PROJECT_LIST",
       "PROJECT_SAVE",
