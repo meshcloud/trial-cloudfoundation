@@ -10,6 +10,17 @@ resource "meshstack_workspace" "smoke_test" {
   }
 }
 
+resource "meshstack_payment_method" "smoke_test" {
+  metadata = {
+    name               = "smoke-test-budget"
+    owned_by_workspace = meshstack_workspace.smoke_test.metadata.name
+  }
+
+  spec = {
+    display_name = "Smoke Test Budget"
+  }
+}
+
 resource "meshstack_api_key" "smoke_test" {
   metadata = {
     owned_by_workspace = meshstack_workspace.smoke_test.metadata.name
