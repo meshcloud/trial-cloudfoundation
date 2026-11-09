@@ -133,6 +133,7 @@ resource "meshstack_building_block" "platform" {
       landingzone_variant = { value = jsonencode("default") }
       platform_identifier = { value = jsonencode("try-meshstack") }
       playground_mode     = { value = jsonencode(false) }
+      stackit_region      = { value = jsonencode("eu01") }
       # The legacy starterkit created its projects with a suffix.
       starterkit_add_random_name_suffix = { value = jsonencode(true) }
       use_global_location               = { value = jsonencode(true) }
