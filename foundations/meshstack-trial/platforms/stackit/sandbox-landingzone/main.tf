@@ -15,7 +15,7 @@ data "meshstack_workspace" "owner" {
 }
 
 locals {
-  git_ref = "aa35ccb0074d5ccf58739d290422cdd9e762dff4"
+  git_ref = "d5b97b7d3a43016f8d16ace80c7b8a416ff3505a"
 }
 
 module "stackit_sandbox_landingzone" {
@@ -25,6 +25,7 @@ module "stackit_sandbox_landingzone" {
 
   meshstack = {
     owning_workspace_identifier = data.meshstack_workspace.owner.metadata.name
+    runner_ref                  = { kind = "meshBuildingBlockRunner", uuid = "04c83558-6c0d-462a-ac0c-6a2326565dc2" }
   }
 
   hub = {
