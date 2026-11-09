@@ -9,7 +9,8 @@ locals {
 
     # Created by ../smoke-test. Spelled out rather than read from its state, which is what this file
     # exists to avoid.
-    workspace = "smoke-test"
+    workspace      = "smoke-test"
+    payment_method = "smoke-test-budget"
   }
 }
 

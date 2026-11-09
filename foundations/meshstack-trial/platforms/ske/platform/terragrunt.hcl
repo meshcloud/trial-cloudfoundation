@@ -13,6 +13,11 @@ provider "meshstack" {
 EOF
 }
 
+include "hub" {
+  path   = "hub.hcl"
+  expose = true
+}
+
 inputs = {
-  hub_ref = "aa35ccb0074d5ccf58739d290422cdd9e762dff4"
+  hub_ref = include.hub.locals.git_ref
 }
