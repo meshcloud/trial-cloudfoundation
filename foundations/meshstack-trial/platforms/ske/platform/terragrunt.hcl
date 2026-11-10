@@ -18,6 +18,12 @@ include "hub" {
   expose = true
 }
 
+include "meshstack_identity_runner" {
+  path   = find_in_parent_folders("meshstack_identity_runner.hcl")
+  expose = true
+}
+
 inputs = {
-  hub_ref = include.hub.locals.git_ref
+  hub_ref    = include.hub.locals.git_ref
+  runner_ref = include.meshstack_identity_runner.locals.runner_ref
 }
