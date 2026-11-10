@@ -3,6 +3,10 @@ variable "stackit_service_account_key" {
   sensitive = true
 }
 
+variable "runner_ref" {
+  type = object({ kind = string, uuid = string })
+}
+
 locals {
   stackit_org         = "05d7eb3f-f875-4bcd-ad0d-a07d62787f21"
   stackit_owner_email = "stackit@meshcloud.io"
@@ -25,7 +29,7 @@ module "stackit_sandbox_landingzone" {
 
   meshstack = {
     owning_workspace_identifier = data.meshstack_workspace.owner.metadata.name
-    runner_ref                  = { kind = "meshBuildingBlockRunner", uuid = "04c83558-6c0d-462a-ac0c-6a2326565dc2" }
+    runner_ref                  = var.runner_ref
   }
 
   hub = {
