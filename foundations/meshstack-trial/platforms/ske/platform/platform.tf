@@ -91,7 +91,8 @@ module "stackit_kubernetes" {
   meshstack = {
     owning_workspace_identifier = local.owning_workspace_identifier
     # The policy "Restrict BuildingBlockDefinitions by Company" refuses orders in meshcloud of an untagged definition.
-    tags = { Company = ["stackit-university"] }
+    tags       = { Company = ["stackit-university"] }
+    runner_ref = var.runner_ref
   }
   hub = {
     git_ref   = var.hub_ref
