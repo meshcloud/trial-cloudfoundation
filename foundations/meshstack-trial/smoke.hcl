@@ -12,6 +12,12 @@ locals {
     workspace      = "smoke-test"
     payment_method = "smoke-test-budget"
   }
+
+  # Also created by ../smoke-test, for STACKIT University offerings: see smoke-test/stackit.tf.
+  stackit = {
+    workspace      = "smoke-test-stackit"
+    mesh_tenant_id = "TODO-after-applying-smoke-test"
+  }
 }
 
 generate "provider" {
