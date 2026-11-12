@@ -24,7 +24,6 @@ terraform {
     commands = ["test"]
     arguments = [
       "-filter=tests/meshstack_workspace_starterkit.tftest.hcl",
-      "-filter=tests/meshstack_workspace_starterkit_unit.tftest.hcl",
     ]
   }
 }
