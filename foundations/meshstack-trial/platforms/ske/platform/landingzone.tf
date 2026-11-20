@@ -4,6 +4,10 @@ locals {
 }
 
 # Registered as drafts by the STACKIT sandbox landing zone in ../../stackit/sandbox-landingzone.
+data "meshstack_building_block_definition" "stackit_project" {
+  metadata = { uuid = "0e4ebeb3-b893-446a-b52a-3ab0c8294d71" }
+}
+
 data "meshstack_building_block_definition" "service_account" {
   metadata = { uuid = "2768b086-6739-43f8-b65e-a694abfc428f" }
 }

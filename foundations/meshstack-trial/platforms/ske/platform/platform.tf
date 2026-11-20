@@ -7,6 +7,9 @@ locals {
     version_upgrade         = true
   }
 
+  # An input change can replace what the platform runs on, so its plan waits for review too.
+  platform_gate = merge(local.version_upgrade_gate, { user_input_changes = true })
+
   # Trial namespaces get no storage.
   stage_quotas = {
     dev = [
@@ -99,7 +102,7 @@ module "stackit_kubernetes" {
     bbd_draft = false
   }
 
-  approval_policies = local.version_upgrade_gate
+  approval_policies = local.platform_gate
 }
 
 resource "meshstack_building_block" "platform" {
@@ -128,6 +131,8 @@ resource "meshstack_building_block" "platform" {
         landingzone_refs = {
           default = { name = "stackit-sandbox-default" }
         }
+        project_bbd_ref                            = data.meshstack_building_block_definition.stackit_project.ref
+        project_bbd_version_ref                    = data.meshstack_building_block_definition.stackit_project.version_latest_release
         service_account_bbd_version_ref            = data.meshstack_building_block_definition.service_account.version_latest
         service_account_federation_bbd_version_ref = data.meshstack_building_block_definition.service_account_federation.version_latest
       })) }
