@@ -19,7 +19,7 @@ data "meshstack_workspace" "owner" {
 }
 
 locals {
-  git_ref = "d5b97b7d3a43016f8d16ace80c7b8a416ff3505a"
+  git_ref = "796cad6e5b68a4c8cfaa5ca6d4e672255ce0a784"
 }
 
 module "stackit_sandbox_landingzone" {
@@ -59,10 +59,8 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
       # Trial users work on this platform, so it keeps the plain identifier `stackit-sandbox`.
       playground_mode = { value = jsonencode(false) }
       tags = { value = jsonencode(jsonencode({
-        building_block        = [{ key = "Company", values = ["stackit-university"] }]
-        landingzone           = [{ key = "Company", values = ["stackit-university"] }]
-        project               = []
-        project_owner_tag_key = ""
+        building_block = [{ key = "Company", values = ["stackit-university"] }]
+        landingzone    = [{ key = "Company", values = ["stackit-university"] }]
       })) }
       # This is an open landing zone: project admins get `owner` so real people can use STACKIT
       # freely, including granting access and escalating privileges through service accounts.
@@ -77,13 +75,6 @@ resource "meshstack_building_block" "stackit_sandbox_landingzone" {
       stackit_service_account_key = { sensitive = provider::meshstack::non_ephemeral_secret(nonsensitive(var.stackit_service_account_key)) }
       use_global_location         = { value = jsonencode(true) }
       topology                    = { value = jsonencode(["sandbox"]) }
-      starterkit_approval_policies = { value = jsonencode(jsonencode({
-        building_block_creation = false
-        user_input_changes      = false
-        any_input_changes       = false
-        manual_triggers         = false
-        version_upgrade         = false
-      })) }
     }
   }
 }
