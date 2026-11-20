@@ -12,6 +12,11 @@ variable "hub" {
   })
 }
 
+# Registered by the STACKIT sandbox landing zone in ../../sandbox-landingzone.
+data "meshstack_building_block_definition" "stackit_project" {
+  metadata = { uuid = "0e4ebeb3-b893-446a-b52a-3ab0c8294d71" }
+}
+
 module "workspace_starterkit" {
   source = "github.com/meshcloud/meshstack-hub//modules/meshstack/workspace-starterkit?ref=${var.hub.git_ref}"
 
@@ -38,6 +43,13 @@ module "workspace_starterkit" {
   # STACKIT University sandbox: every onboarded team gets a project+tenant here.
   platform_uuid     = "b66e3542-5887-4d48-9f06-968dbc98d97c"
   landing_zone_name = "stackit-sandbox-default"
+
+  # The landing zone's own definitions stay drafts, so the workspaces this creates order the release.
+  tenant_building_block = {
+    definition_ref         = data.meshstack_building_block_definition.stackit_project.ref
+    definition_version_ref = data.meshstack_building_block_definition.stackit_project.version_latest_release
+    display_name           = "STACKIT Project"
+  }
 
   workspace_expiry_tag_key = "TrialEnd"
 
