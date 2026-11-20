@@ -16,6 +16,17 @@ data "meshstack_landingzones" "sandbox" {
   }
 }
 
+data "meshstack_building_block_definition" "stackit_project" {
+  metadata = { uuid = var.stackit_project_definition_uuid }
+
+  lifecycle {
+    postcondition {
+      condition     = self.version_latest_release != null
+      error_message = "The STACKIT Project definition ${var.stackit_project_definition_uuid} has no released version, which a Workspace Owner needs to order it."
+    }
+  }
+}
+
 data "meshstack_payment_method" "workshop" {
   metadata = {
     name               = coalesce(var.payment_method_identifier, "${var.workspace_identifier}-payment-method")
@@ -52,5 +63,34 @@ resource "meshstack_tenant" "sandbox" {
   spec = {
     platform_ref     = local.landing_zone.spec.platform_ref
     landing_zone_ref = local.landing_zone.ref
+  }
+
+  # The tenant gets its STACKIT project only from the building block below, which needs the tenant
+  # first. Destroy still waits, because the workspace starterkit cannot delete the workspace while a
+  # tenant is being deleted.
+  wait_for_completion = false
+  wait_for_deletion   = true
+}
+
+resource "meshstack_building_block" "stackit_project" {
+  for_each = meshstack_tenant.sandbox
+
+  lifecycle {
+    # Only the definition's owning workspace may move a block to a newer version.
+    ignore_changes = [spec.building_block_definition_version_ref]
+
+    postcondition {
+      condition     = self.status.succeeded
+      error_message = "Building block ${self.metadata.uuid} did not succeed (health status ${self.status.health_status}, action ${self.status.action}). See its run in meshPanel."
+    }
+  }
+
+  wait_for_completion = true
+
+  spec = {
+    building_block_definition_version_ref = data.meshstack_building_block_definition.stackit_project.version_latest_release
+    display_name                          = "STACKIT Project"
+    target_ref                            = each.value.ref
+    inputs                                = {}
   }
 }

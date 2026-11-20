@@ -4,8 +4,8 @@ terraform {
   required_providers {
     meshstack = {
       source = "meshcloud/meshstack"
-      # 0.26.2 is the first release whose `profile` login acts in the workspace it names.
-      version = ">= 0.26.2"
+      # 0.28.2 is the first release whose tenant destroy waits with `wait_for_completion = false`.
+      version = ">= 0.28.2"
     }
   }
 }

@@ -34,3 +34,10 @@ variable "landing_zone_name" {
   default     = "stackit-sandbox-default"
   description = "Identifier of the landing zone the sandbox tenants are placed in. Defaults to the STACKIT sandbox landing zone of try.meshstack.io."
 }
+
+variable "stackit_project_definition_uuid" {
+  type        = string
+  nullable    = false
+  default     = "0e4ebeb3-b893-446a-b52a-3ab0c8294d71"
+  description = "STACKIT Project building block definition ordered on each sandbox tenant. Defaults to the one of try.meshstack.io."
+}

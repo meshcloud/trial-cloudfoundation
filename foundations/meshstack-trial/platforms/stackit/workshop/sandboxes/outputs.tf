@@ -3,7 +3,7 @@ output "sandboxes" {
   value = {
     for number, project in meshstack_project.sandbox : number => {
       project_identifier = project.metadata.name
-      stackit_project_id = meshstack_tenant.sandbox[number].spec.platform_tenant_id
+      stackit_project_id = jsondecode(meshstack_building_block.stackit_project[number].status.outputs["project_id"].value)
     }
   }
 }

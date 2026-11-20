@@ -2,10 +2,13 @@
 
 Trainers run this OpenTofu module with their own meshStack login to prepare a STACKIT workshop. It
 adds sandboxes to a workshop workspace that the STACKIT University workspace starterkit created. A
-sandbox is a meshProject with a STACKIT sandbox project.
+sandbox is a meshProject with a STACKIT sandbox tenant, which gets its STACKIT project from a
+**STACKIT Project** building block.
 
 It is not a Terragrunt unit of this foundation: we never apply it. It needs no permissions beyond
-the trainer's **Workspace Owner** role and no STACKIT organization access.
+the trainer's **Workspace Owner** role and no STACKIT organization access. For that, the STACKIT
+Project definition must be published on try.meshstack.io and have a released version; the module
+orders the latest released one.
 
 ## Workflow
 
