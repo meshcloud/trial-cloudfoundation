@@ -131,7 +131,6 @@ resource "meshstack_building_block" "platform" {
         landingzone_refs = {
           default = { name = "stackit-sandbox-default" }
         }
-        project_bbd_ref                            = data.meshstack_building_block_definition.stackit_project.ref
         project_bbd_version_ref                    = data.meshstack_building_block_definition.stackit_project.version_latest_release
         service_account_bbd_version_ref            = data.meshstack_building_block_definition.service_account.version_latest
         service_account_federation_bbd_version_ref = data.meshstack_building_block_definition.service_account_federation.version_latest
