@@ -46,7 +46,6 @@ module "workspace_starterkit" {
 
   # The landing zone's own definitions stay drafts, so the workspaces this creates order the release.
   tenant_building_block = {
-    definition_ref         = data.meshstack_building_block_definition.stackit_project.ref
     definition_version_ref = data.meshstack_building_block_definition.stackit_project.version_latest_release
     display_name           = "STACKIT Project"
   }

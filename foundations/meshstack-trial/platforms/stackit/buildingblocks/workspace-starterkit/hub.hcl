@@ -2,7 +2,7 @@
 # (terragrunt.hcl) and the e2e smoke test (e2e/terragrunt.hcl).
 locals {
   module  = "meshstack/workspace-starterkit"
-  git_ref = "796cad6e5b68a4c8cfaa5ca6d4e672255ce0a784"
+  git_ref = "865da316ac07c76c5a65b633a07cc53097a8cdc9"
 
   # Vital: keeps this BBD in draft. A draft BBD is only orderable from its owning workspace
   # (meshcloud), never published to the marketplace — we want this hidden, not offered generally.
