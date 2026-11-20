@@ -19,7 +19,7 @@ data "meshstack_workspace" "owner" {
 }
 
 locals {
-  git_ref = "55e0ea789e5e20dbeb4e88f2b9f18e032b3624f0"
+  git_ref = "865da316ac07c76c5a65b633a07cc53097a8cdc9"
 }
 
 module "stackit_sandbox_landingzone" {
